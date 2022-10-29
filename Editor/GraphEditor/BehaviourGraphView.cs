@@ -217,12 +217,17 @@ namespace BehaviourGraph.Editor
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
             contextualMousePosition = GetMousePosition(evt);
+            
+            evt.menu.AppendAction("Copy", a => CopySelectionCallback(),
+                (evt.target is GraphNodeView) ? DropdownMenuAction.Status.Normal : DropdownMenuAction.Status.Disabled);
+            evt.menu.AppendAction("Paste", a => PasteCallback(), 
+                canPaste ? DropdownMenuAction.Status.Normal : DropdownMenuAction.Status.Disabled);
+            evt.menu.AppendAction("Delete", a => DeleteSelectionCallback(AskUser.DontAskUser),
+                (evt.target is GraphNodeView) ? DropdownMenuAction.Status.Normal : DropdownMenuAction.Status.Disabled);
+            evt.menu.AppendSeparator();
+
             if (evt.target is TaskNodeView nodeView)
             {
-                evt.menu.AppendAction("Copy", a => CopySelectionCallback());
-                evt.menu.AppendAction("Delete", a => DeleteSelectionCallback(AskUser.AskUser));
-
-                evt.menu.AppendSeparator();
                 evt.menu.AppendAction("Set Start", a =>
                 {
                     //check if there is an existing assigned root task and remove it
@@ -290,10 +295,9 @@ namespace BehaviourGraph.Editor
                     }
                 });
             }
-            else
+
+            if (evt.target is BehaviourGraphView)
             {
-                evt.menu.AppendAction("Paste", a => PasteCallback(), canPaste ? DropdownMenuAction.Status.Normal : DropdownMenuAction.Status.Disabled);
-                evt.menu.AppendSeparator();
 
                 GraphContextualManager.BuildMenu(evt, type =>
                 {
