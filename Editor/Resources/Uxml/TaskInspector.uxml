@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/BehaviourGraph/Editor/StyleSheets/TaskInspector.uss?fileID=7433441132597879392&amp;guid=0946e42c9b0644e4cadc7ec99fb68ab7&amp;type=3#TaskInspector" />
+    <ui:VisualElement name="container" picking-mode="Ignore" style="border-left-color: rgb(34, 34, 34); border-right-color: rgb(34, 34, 34); border-top-color: rgb(34, 34, 34); border-bottom-color: rgb(34, 34, 34);">
+        <ui:VisualElement name="header" picking-mode="Ignore">
+            <ui:Label tabindex="-1" text="Inspector" display-tooltip-when-elided="true" name="title-label" />
+        </ui:VisualElement>
+        <ui:VisualElement name="content" picking-mode="Ignore">
+            <ui:IMGUIContainer name="imgui-container" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -1,0 +1,21 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
+    <Style src="project://database/Assets/BehaviourGraph/Editor/Resources/StyleSheets/Blackboard.uss?fileID=7433441132597879392&amp;guid=1f641f91bf1d10247a0c75794b80449d&amp;type=3#Blackboard" />
+    <ui:VisualElement name="container">
+        <ui:VisualElement name="header">
+            <ui:Label tabindex="-1" text="Blackboard Variables" display-tooltip-when-elided="true" name="title-label" />
+        </ui:VisualElement>
+        <ui:VisualElement name="body">
+            <ui:GroupBox name="create-variable">
+                <ui:Label tabindex="-1" text="Graph Blackboard Variables" display-tooltip-when-elided="true" style="padding-left: 4px; padding-bottom: 4px; -unity-font-style: bold;" />
+                <ui:VisualElement style="flex-direction: row;">
+                    <ui:DropdownField index="-1" name="type-select" style="flex-grow: 1; width: 100%; flex-basis: 60%; flex-shrink: initial;" />
+                    <ui:TextField picking-mode="Ignore" name="type-name" text="Enter Variable Name" style="flex-grow: 1; flex-basis: 100%; flex-shrink: initial;" />
+                    <ui:Button tabindex="-1" text="+ Add" display-tooltip-when-elided="true" name="add-button" focusable="true" style="padding-top: 3px; padding-bottom: 3px;" />
+                </ui:VisualElement>
+            </ui:GroupBox>
+            <ui:VisualElement name="bottom" style="margin-top: 5px; margin-left: 3px; margin-right: 3px;">
+                <ui:IMGUIContainer name="imgui-container" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

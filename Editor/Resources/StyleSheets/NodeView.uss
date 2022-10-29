@@ -1,0 +1,300 @@
+#container {
+}
+
+#top {
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    flex-grow: 0;
+}
+
+#body {
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    border-left-color: rgb(36, 36, 36);
+    border-right-color: rgb(36, 36, 36);
+    border-top-color: rgb(36, 36, 36);
+    border-bottom-color: rgb(36, 36, 36);
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+#body-content {
+    background-color: rgb(56, 56, 56);
+    flex-grow: 1;
+    align-items: stretch;
+    justify-content: center;
+    min-width: 120px;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-left-color: rgb(75, 75, 75);
+    border-right-color: rgb(75, 75, 75);
+    border-top-color: rgb(75, 75, 75);
+    border-bottom-color: rgb(75, 75, 75);
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+#start-label {
+    background-color: rgb(47, 64, 82);
+    -unity-text-align: middle-center;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    -unity-font-style: bold;
+    font-size: 12px;
+    display: none;
+}
+
+#title-label {
+    -unity-font-style: normal;
+    font-size: 12px;
+    flex-grow: 1;
+    -unity-text-align: middle-center;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+    -unity-background-image-tint-color: rgb(53, 53, 53);
+    color: rgb(190, 190, 190);
+}
+
+#info-label {
+    -unity-text-align: middle-center;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+    -unity-font-style: bold;
+    -unity-font: url('project://database/Library/unity%20default%20resources?fileID=10102&guid=0000000000000000e000000000000000&type=0#Arial');
+    -unity-font-definition: none;
+    font-size: 12px;
+    display: none;
+}
+
+#node-icon {
+    height: 20px;
+}
+
+#bottom {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+#container .port {
+    height: 14px;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    width: 40px;
+}
+
+#container .port > #connector {
+    width: 35px;
+    height: 10px;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    max-width: none;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    background-color: rgb(57, 57, 58);
+}
+
+#container #connector #cap {
+    border-radius: 6px;
+    width: 30px;
+    height: 10px;
+    background-color: rgb(76, 78, 82);
+}
+
+.graphElement.node {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+:hover > #body-content {
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-left-color: rgb(114, 151, 185);
+    border-right-color: rgb(114, 151, 185);
+    border-top-color: rgb(114, 151, 185);
+    border-bottom-color: rgb(114, 151, 185);
+}
+
+:checked #body-content {
+    border-left-width: 2px;
+    border-right-width: 2px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-left-color: rgb(40, 125, 207);
+    border-right-color: rgb(40, 125, 207);
+    border-top-color: rgb(40, 125, 207);
+    border-bottom-color: rgb(40, 125, 207);
+}
+
+.Running #body-content {
+    border-left-color: rgb(145, 104, 168);
+    border-right-color: rgb(145, 104, 168);
+    border-top-color: rgb(145, 104, 168);
+    border-bottom-color: rgb(145, 104, 168);
+    border-left-width: 3px;
+    border-right-width: 3px;
+    border-top-width: 3px;
+    border-bottom-width: 3px;
+}
+
+.Success #body-content {
+    border-left-width: 3px;
+    border-right-width: 3px;
+    border-top-width: 3px;
+    border-bottom-width: 3px;
+    border-left-color: rgb(88, 178, 101);
+    border-right-color: rgb(88, 178, 101);
+    border-top-color: rgb(88, 178, 101);
+    border-bottom-color: rgb(88, 178, 101);
+}
+
+.Failure #body-content {
+    border-left-width: 3px;
+    border-right-width: 3px;
+    border-top-width: 3px;
+    border-bottom-width: 3px;
+    border-left-color: rgb(204, 70, 70);
+    border-right-color: rgb(204, 70, 70);
+    border-top-color: rgb(204, 70, 70);
+    border-bottom-color: rgb(204, 70, 70);
+}
+
+.startTask #start-label {
+    display: flex;
+}
+
+.startTask #top {
+    display: none;
+}
+
+.nodeTask .port.Running {
+    --port-color: rgb(145, 104, 168);
+}
+
+.nodeTask .port.Success {
+    --port-color: rgb(88, 178, 101);
+}
+
+.nodeTask .port.Failure {
+    --port-color: rgb(204, 70, 70);
+}
+
+.portWrapper {
+    position: absolute;
+}
+
+#input-container {
+    top: -12px;
+    padding-left: 8px;
+}
+
+#output-container {
+    bottom: -12px;
+    padding-right: 8px;
+}
+
+.connectorText {
+    width: 0;
+    display: flex;
+}
+
+#container .port {
+    --port-color: rgb(125, 130, 137);
+}
+
+#input-container #connector {
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+#output-container #connector {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 6px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 6px;
+}
+
+#input-container #connector #cap {
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+#output-container #connector #cap {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 6px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 6px;
+}
+
+.icon-container {
+    align-items: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+    padding-bottom: 0;
+}
+
+.info-container {
+    background-color: rgb(41, 41, 41);
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    padding-left: 7px;
+    padding-right: 7px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}

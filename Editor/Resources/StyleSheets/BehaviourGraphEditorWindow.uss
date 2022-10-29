@@ -1,0 +1,14 @@
+#root {
+    flex-grow: 1;
+}
+
+#graph-name {
+    position: absolute;
+    left: 0;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    bottom: 0;
+}

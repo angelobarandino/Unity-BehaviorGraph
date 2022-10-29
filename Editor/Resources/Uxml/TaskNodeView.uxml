@@ -1,0 +1,27 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Assets/BehaviourGraph/Editor/Resources/StyleSheets/NodeView.uss?fileID=7433441132597879392&amp;guid=c5a0839497998e2419b8630786a979a6&amp;type=3#NodeView" />
+    <ui:VisualElement name="container" picking-mode="Ignore">
+        <ui:VisualElement name="top">
+            <ui:VisualElement name="input-container" class="portWrapper">
+                <ui:VisualElement name="input" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="body" picking-mode="Ignore">
+            <ui:VisualElement name="body-content">
+                <ui:Label tabindex="-1" text="START" display-tooltip-when-elided="true" name="start-label" />
+                <ui:VisualElement name="icon-container" class="icon-container">
+                    <BehaviourGraph.Editor.NodeIcon name="node-icon" />
+                </ui:VisualElement>
+                <ui:VisualElement name="info-container" class="info-container">
+                    <ui:Label name="title-label" text="Task" class="unity-text-element unity-label" />
+                    <ui:Label text="&#10;" display-tooltip-when-elided="true" name="info-label" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="bottom">
+            <ui:VisualElement name="output-container" class="portWrapper">
+                <ui:VisualElement name="output" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
