@@ -309,6 +309,13 @@ namespace BehaviourGraph.Editor
                         });
                     }
 
+                    //check if current node is the rootTask
+                    if (nodeView.Node is ITask task && task.IsRootTask)
+                    {
+                        //then set the replacement node as the root task
+                        activeBehaviour.DataSource.SetRootTask(replacementNode);
+                    }
+
                     //remove node to replace    
                     activeBehaviour.DataSource.RemoveNode(nodeView.Node);
 
