@@ -12,7 +12,7 @@ namespace BehaviourGraph.Runtime
 
         NodeState State { get; }
 
-        NodeState Evaluate(IBlackboard blackboard);
+        NodeState Evaluate();
 
         List<ITask> GetChildren();
 

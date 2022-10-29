@@ -20,11 +20,11 @@ namespace BehaviourGraph.Editor
         private IBehaviour activeBehaviour;
         private Vector2 contextualMousePosition;
         private readonly BlackboardProvider blackboardProvider;
-        private readonly NodeInspectorProvider nodeInspector;
+        private readonly NodeInspectorProvider nodeInspectorProvider;
 
-        public IBehaviourOwner BehaviourOwner 
+        public IBehaviourOwner BehaviorOwner 
         { 
-            get => activeBehaviour.BehaviourOwner;
+            get => activeBehaviour?.BehaviourOwner;
         }
 
         public BehaviourGraphView()
@@ -38,7 +38,7 @@ namespace BehaviourGraph.Editor
             this.AddStyleSheet("Assets/BehaviourGraph/Editor/Resources/StyleSheets/BehaviourTreeEditorStyle.uss");
 
             blackboardProvider = new BlackboardProvider(this);
-            nodeInspector = new NodeInspectorProvider(this);
+            nodeInspectorProvider = new NodeInspectorProvider(this);
 
             Undo.undoRedoPerformed -= OnUndoRedoPerformed;
             Undo.undoRedoPerformed += OnUndoRedoPerformed;
@@ -55,7 +55,8 @@ namespace BehaviourGraph.Editor
         public void LoadBehaviourTree(IBehaviour behaviour)
         {
             activeBehaviour = behaviour;
-            nodeInspector.Hide();
+            blackboardProvider.LoadVariables();
+            nodeInspectorProvider.Hide();
 
             graphViewChanged -= OnGraphViewChanged;
             DeleteElements(graphElements);
@@ -94,6 +95,8 @@ namespace BehaviourGraph.Editor
                 case TaskUpdateEvent.Remove:
                     break;
             }
+
+            SetBehaviorAssetDirty();
         }
 
         private void CreateNodeView(INode node)
@@ -114,7 +117,7 @@ namespace BehaviourGraph.Editor
             if (nodeView != null)
             {
                 nodeView.GraphView = this;
-                nodeView.Selected = () => nodeInspector.Show(node);
+                nodeView.Selected = () => nodeInspectorProvider.Show(node);
                 AddElement(nodeView);
             }
         }
@@ -151,7 +154,7 @@ namespace BehaviourGraph.Editor
                     }
                 }
 
-                nodeInspector.Hide();
+                nodeInspectorProvider.Hide();
             }
 
             if (graphViewChange.edgesToCreate != null)
@@ -177,6 +180,8 @@ namespace BehaviourGraph.Editor
                         }
                     }
                 }
+
+                SetBehaviorAssetDirty();
             }
 
             return graphViewChange;
@@ -234,6 +239,11 @@ namespace BehaviourGraph.Editor
                     //show 'START' label
                     nodeView.SetRootTask(true);
                 });
+
+                evt.menu.AppendAction("Convert To SubTree", a =>
+                {
+
+                });
             }
             else
             {
@@ -248,18 +258,11 @@ namespace BehaviourGraph.Editor
                 });
 
                 evt.menu.AppendSeparator();
-                evt.menu.AppendAction("Behaviour SubTree", a =>
+                evt.menu.AppendAction("Create Behaviour SubTree", a =>
                 {
                     var subTree = new SubTree();
                     subTree.SetPosition(contextualMousePosition);
                     activeBehaviour.DataSource.CreateNode(subTree);
-                });
-
-                evt.menu.AppendAction("Create Action Task", a =>
-                {
-                    var actionTask = new ActionTask();
-                    actionTask.SetPosition(contextualMousePosition);
-                    activeBehaviour.DataSource.CreateNode(actionTask);
                 });
             }
         }
@@ -272,15 +275,11 @@ namespace BehaviourGraph.Editor
             return EditorUtility.InstanceIDToObject(id);
         }
 
-        public void SaveChangesToAsset()
+        public void SetBehaviorAssetDirty()
         {
             var asset = GetAssetInstance();
-            if (asset)
-            {
-                EditorUtility.SetDirty(asset);
-                AssetDatabase.SaveAssets();
-                Debug.Log("CHANGES SAVED!");
-            }
+
+            if (asset) EditorUtility.SetDirty(asset);
         }
 
         public void RecordObjectUndo(TaskUpdateEvent updateEvent)

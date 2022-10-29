@@ -22,14 +22,13 @@ namespace BehaviourGraph.Runtime
         [SerializeField]
         private UpdateMode updateMode = UpdateMode.Update;
 
-        private IBlackboard blackboard;
         public IBlackboard Blackboard
         {
-            get => blackboard ??= GetComponent<BlackboardVariable>();
+            get => GetComponent<BlackboardVariable>();
         }
 
         private NodeState state = NodeState.Running;
-        
+
         private void Start()
         {
             behaviorAsset.DataSource.AllNodes.ForEach(node =>
@@ -59,7 +58,7 @@ namespace BehaviourGraph.Runtime
 
             if (behaviorAsset.DataSource.RootTask != null && state == NodeState.Running)
             {
-                state = behaviorAsset.DataSource.RootTask.Evaluate(Blackboard);
+                state = behaviorAsset.DataSource.RootTask.Evaluate();
             }
         }
 

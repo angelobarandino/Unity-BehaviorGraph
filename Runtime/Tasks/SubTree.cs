@@ -22,7 +22,7 @@ namespace BehaviourGraph.Runtime.Tasks
 
         protected override NodeState OnUpdate()
         {
-            return subTree.DataSource.RootTask.Evaluate(Blackboard);
+            return subTree.DataSource.RootTask.Evaluate();
         }
 
         public override void Initialize(IBehaviourOwner owner)

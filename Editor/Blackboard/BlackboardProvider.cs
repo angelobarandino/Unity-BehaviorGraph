@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
+using UnityEngine;
 
 namespace BehaviourGraph.Editor
 {
@@ -13,44 +14,64 @@ namespace BehaviourGraph.Editor
         public BlackboardProvider(IGraphView graphView)
         {
             this.graphView = graphView;
-
-            blackboardView = new BlackboardView
-            {
-                AddVariable = OnVariableAdded,
-            };
-
-            blackboardView.SetPropertyChoices(TypeMap.Select(x => x.Key));
-         
-            graphView.Add(blackboardView);
+            blackboardView = new BlackboardView();
+            blackboardView.SetPropertyChoices(VariablesTypeMap.Select(x => x.Key));
+            blackboardView.AddButton.clickable.clicked -= CreateVariable;
+            blackboardView.AddButton.clickable.clicked += CreateVariable;
+            this.graphView.Add(blackboardView);
         }
 
-        private void OnVariableAdded()
+
+        private void CreateVariable()
         {
             var variableName = blackboardView.GetVariableName();
             var propertyType = blackboardView.GetPropertyType();
 
             if (!string.IsNullOrWhiteSpace(variableName) && propertyType != null)
             {
-                if (TypeMap.ContainsKey(propertyType))
+                if (VariablesTypeMap.ContainsKey(propertyType))
                 {
-                    var variable = (IBBVariable)Activator.CreateInstance(TypeMap[propertyType]);
+                    var type = VariablesTypeMap[propertyType];
+                    var variable = (IBBVariable)Activator.CreateInstance(type);
+
                     variable.Name = variableName;
                     variable.ReferenceName = variableName;
                     variable.IsReferenced = true;
-                    blackboardView.Reset();
 
-                    graphView.BehaviourOwner.Blackboard.AddVariable(variable);
+                    graphView.BehaviorOwner?.Blackboard?.AddVariable(variable);
+                    blackboardView.Reset();
                 }
             }
         }
 
-        public void Initialize()
+        public void LoadVariables()
         {
-            blackboardView.LoadVariables(graphView.BehaviourOwner.Blackboard);
+            blackboardView.IMGUIContainer.onGUIHandler -= OnGUI;
+            blackboardView.IMGUIContainer.onGUIHandler += OnGUI;
+        }
+        private void OnGUI()
+        {
+            if (graphView.BehaviorOwner != null)
+            {
+                try
+                {
+                    var so = ScriptableObject.CreateInstance<BlackboardViewSO>();
+                    so.Initialize(graphView.BehaviorOwner.Blackboard);
+                    var editor = UnityEditor.Editor.CreateEditor(so);
+                    if (editor)
+                    {
+                        editor.OnInspectorGUI();
+                    }
+                } 
+                catch 
+                {
+                    //ignore error 'BehaviorOwner' has been destroyed exiting playmode
+                }
+            }
         }
 
         private static Dictionary<string, Type> typeMap;
-        public static Dictionary<string, Type> TypeMap
+        public static Dictionary<string, Type> VariablesTypeMap
         {
             get
             {

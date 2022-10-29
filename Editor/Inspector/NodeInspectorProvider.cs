@@ -28,7 +28,7 @@ namespace BehaviourGraph.Editor
 
         public List<IBBVariable> GetBlackboardVariables()
         {
-            return graphView.BehaviourOwner?.Blackboard?.AllVariables ?? new List<IBBVariable>();
+            return graphView.BehaviorOwner?.Blackboard?.AllVariables ?? new List<IBBVariable>();
         }
     }
 }

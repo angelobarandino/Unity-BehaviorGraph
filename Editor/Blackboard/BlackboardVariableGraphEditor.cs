@@ -5,7 +5,7 @@ namespace BehaviourGraph.Editor
     [CustomEditor(typeof(BlackboardViewSO))]
     public class BlackboardVariableGraphEditor : UnityEditor.Editor
     {
-        private BlackboardVariableGUI blackboardDrawer;
+        private BlackboardVariableGUI blackboardGUI;
 
         private void OnEnable()
         {
@@ -17,7 +17,7 @@ namespace BehaviourGraph.Editor
                 
                     var allVariablesProperty = serializedObject.FindProperty("allVariables");
                 
-                    blackboardDrawer = new BlackboardVariableGUI(serializedObject, allVariablesProperty, so.GetBlackboard());
+                    blackboardGUI = new BlackboardVariableGUI(serializedObject, allVariablesProperty, so.Blackboard);
                 }
             }
             catch {}
@@ -25,7 +25,7 @@ namespace BehaviourGraph.Editor
 
         public override void OnInspectorGUI()
         {
-            blackboardDrawer.DoLayout();
+            blackboardGUI.DoLayout();
         }
     }
 }

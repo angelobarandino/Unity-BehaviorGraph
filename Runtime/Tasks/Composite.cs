@@ -45,7 +45,7 @@ namespace BehaviourGraph.Runtime.Tasks
                 }
             }
 
-            var childState = child.Evaluate(Blackboard);
+            var childState = child.Evaluate();
             allChildState[child.Id] = childState;
             return OnChildUpdate(currentIndex, childState);
         }

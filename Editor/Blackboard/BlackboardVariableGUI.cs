@@ -110,6 +110,9 @@ namespace BehaviourGraph.Editor
 
         public void DoLayout()
         {
+            if (blackboard == null)
+                return;
+
             serializedObject.Update();
             list.DoLayoutList();
             serializedObject.ApplyModifiedProperties();

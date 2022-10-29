@@ -50,13 +50,6 @@ namespace BehaviourGraph.Runtime.Tasks
             Name = GetType().Name;
         }
 
-        public NodeState Evaluate(IBlackboard blackboard)
-        {
-            this.blackboard ??= blackboard;
-
-            return Evaluate();
-        }
-
         public NodeState Evaluate()
         {
             if (!started)
@@ -94,7 +87,7 @@ namespace BehaviourGraph.Runtime.Tasks
                 if (child.State == NodeState.Running)
                 {
                     child.Interupt(interuptState);
-                    child.Evaluate(blackboard);
+                    child.Evaluate();
                 }
             }
 
@@ -105,8 +98,10 @@ namespace BehaviourGraph.Runtime.Tasks
         public virtual void Initialize(IBehaviourOwner owner)
         {
             this.owner = owner;
+
             gameObject = owner.gameObject;
-            InjectPropertyMappng();
+
+            InjectBlackboardVariables(owner.Blackboard);
         }
 
         public void OverrideState(NodeState taskState)
@@ -119,7 +114,7 @@ namespace BehaviourGraph.Runtime.Tasks
             return new List<ITask>(); 
         }
 
-        private void InjectPropertyMappng()
+        private void InjectBlackboardVariables(IBlackboard blackboard)
         {
             var variables = TaskUtility.GetFieldInfos(GetType());
 
@@ -131,9 +126,7 @@ namespace BehaviourGraph.Runtime.Tasks
                     {
                         if (variable.IsReferenced)
                         {
-                            var bbVariable = variable.IsDynamic 
-                                ? Blackboard.AddGetDynamicVariable(variable)
-                                : Blackboard.GetVariable(variable.ReferenceName);
+                            var bbVariable = variable.IsDynamic ? blackboard.AddGetDynamicVariable(variable) : blackboard.GetVariable(variable.ReferenceName);
 
                             if (!bbVariable.Invalid) fieldInfo.SetValue(this, bbVariable);
                         }

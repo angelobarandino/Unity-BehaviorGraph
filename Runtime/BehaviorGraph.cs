@@ -14,9 +14,9 @@ namespace BehaviourGraph.Runtime
             get => dataSource;
         }
 
-        public NodeState Evaluate(IBlackboard blackboard)
+        public NodeState Evaluate()
         {
-            return dataSource.RootTask.Evaluate(blackboard);
+            return dataSource.RootTask.Evaluate();
         }
 
         public IBehaviourOwner BehaviourOwner { get; set; }

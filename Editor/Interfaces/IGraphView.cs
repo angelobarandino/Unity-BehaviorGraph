@@ -7,9 +7,9 @@ namespace BehaviourGraph.Editor
 {
     public interface IGraphView
     {
-        IBehaviourOwner BehaviourOwner { get; }
+        IBehaviourOwner BehaviorOwner { get; }
         UnityEngine.Object GetAssetInstance();
-        void SaveChangesToAsset();
+        void SetBehaviorAssetDirty();
 
         void Add(VisualElement element);
         void AddElement(GraphElement element);
