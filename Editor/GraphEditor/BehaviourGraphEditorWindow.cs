@@ -68,7 +68,7 @@ namespace BehaviourGraph.Editor
                 if (behaviour != null)
                 {
                     graphNameLabel.text = GetTitle(behaviour.Name);
-                    graphView.LoadBehaviourTree(behaviour);
+                    graphView.LoadBehaviorTree(behaviour);
                 }
             }
         }

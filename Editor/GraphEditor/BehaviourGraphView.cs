@@ -8,6 +8,7 @@ using BehaviourGraph.Runtime.Tasks;
 using CityBuilder.AI.Tasks.Actions;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.TestTools.TestRunner.Api;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Action = BehaviourGraph.Runtime.Tasks.Action;
@@ -53,7 +54,7 @@ namespace BehaviourGraph.Editor
             unserializeAndPaste += HandleUnserializeAndPaste;
         }
 
-        public void LoadBehaviourTree(IBehaviour behaviour)
+        public void LoadBehaviorTree(IBehaviour behaviour)
         {
             activeBehaviour = behaviour;
             blackboardProvider.LoadVariables();
@@ -195,7 +196,7 @@ namespace BehaviourGraph.Editor
 
         private void OnUndoRedoPerformed()
         {
-            LoadBehaviourTree(activeBehaviour);
+            LoadBehaviorTree(activeBehaviour);
         }
 
         private GraphNodeView FindGraphNodeView(string guid)
@@ -246,62 +247,107 @@ namespace BehaviourGraph.Editor
                     nodeView.SetRootTask(true);
                 });
 
-                evt.menu.AppendAction("Convert To SubTree", a =>
+                evt.menu.AppendSeparator();
+
+                GraphContextualManager.DecorateMenu(evt, decoratorNode =>
                 {
-                    var behaviorSubTree = BehaviorAssetUtility.Create<BehaviorSubTree>(
-                        "Create BehaviorSubTree", "BehaviorSubTree");
-
-                    if (behaviorSubTree == null)
-                        return;
-
-                    if (nodeView.Node is ITask nodeTask)
+                    //create the decorator node
+                    var position = nodeView.Node.GetPosition();
+                    decoratorNode.SetPosition(position);
+                    activeBehaviour.DataSource.CreateNode(decoratorNode);
+                    
+                    //check if task to decorate has parent connected
+                    var parentNode = activeBehaviour.DataSource.FindNodeById(nodeView.Node.ParentId);
+                    if (parentNode != null)
                     {
-                        var nodesToDelete = new List<INode>();
-                        nodesToDelete.Add(nodeTask);
-
-                        //create and set sub tree root node
-                        var cloneTask = nodeTask.Clone() as ITask;
-                        cloneTask.SetPosition(nodeTask.GetPosition());
-                        cloneTask.SetRootTask(true);
-                        behaviorSubTree.DataSource.CreateNode(cloneTask);
-
-                        //copy children to subtree
-                        nodeTask.GetChildren().ForEach(child =>
-                        {
-                            nodesToDelete.Add(child);
-
-                            var cloneChild = child.Clone() as ITask;
-                            cloneChild.SetPosition(child.GetPosition());
-                            behaviorSubTree.DataSource.CreateNode(cloneChild);
-                            behaviorSubTree.DataSource.AddChild(cloneTask, cloneChild);
-                        });
-
-                        //create subtree node
-                        var subTree = new SubTree();
-                        subTree.BehaviourSubTree = behaviorSubTree;
-                        subTree.SetPosition(nodeView.Node.GetPosition());
-                        activeBehaviour.DataSource.CreateNode(subTree);
-                        activeBehaviour.DataSource.DeleteNodes(nodesToDelete);
-
-                        //set subtree parent node
-                        var parentNode = activeBehaviour.DataSource.FindNodeById(nodeTask.ParentId);
-                        if (parentNode != null)
-                        {
-                            activeBehaviour.DataSource.RemoveChild(parentNode, nodeTask);
-                            activeBehaviour.DataSource.AddChild(parentNode, subTree);
-                        }
-
-                        LoadBehaviourTree(activeBehaviour);
+                        activeBehaviour.DataSource.RemoveChild(parentNode, nodeView.Node);
+                        activeBehaviour.DataSource.AddChild(parentNode, decoratorNode);
                     }
+
+                    //set task to decorate parent to the decorator node
+                    position += new Vector2(0, 150f);
+                    nodeView.Node.SetPosition(position);
+                    activeBehaviour.DataSource.AddChild(decoratorNode, nodeView.Node);
+
+                    //if task to decorate has children, then also move their positions
+                    if (nodeView.Node is IParentTask parentTask)
+                    {
+                        parentTask.GetChildren().ForEach(node =>
+                        {
+                            var currentPos = node.GetPosition();
+                            currentPos.y += 150f;
+                            node.SetPosition(currentPos);
+                        });
+                    }
+
+                    //reload behavior tree
+                    LoadBehaviorTree(activeBehaviour);
                 });
+
+                GraphContextualManager.ReplaceMenu(evt, replacementNode =>
+                {
+                    replacementNode.SetPosition(nodeView.Node.GetPosition());
+                    activeBehaviour.DataSource.CreateNode(replacementNode);
+                });
+
+                evt.menu.AppendSeparator();
+                if (nodeView.Node is IParentTask parent && parent.GetChildren().Count > 0)
+                {
+                    evt.menu.AppendAction("Convert To SubTree", a =>
+                    {
+                        var behaviorSubTree = BehaviorAssetUtility.Create<BehaviorSubTree>(
+                            "Create BehaviorSubTree", "BehaviorSubTree");
+
+                        if (behaviorSubTree == null)
+                            return;
+
+                        if (nodeView.Node is ITask nodeTask)
+                        {
+                            var nodesToDelete = new List<INode>();
+                            nodesToDelete.Add(nodeTask);
+
+                            //create and set sub tree root node
+                            var cloneTask = nodeTask.Clone() as ITask;
+                            cloneTask.SetPosition(nodeTask.GetPosition());
+                            cloneTask.SetRootTask(true);
+                            behaviorSubTree.DataSource.CreateNode(cloneTask);
+
+                            //copy children to subtree
+                            nodeTask.GetChildren().ForEach(child =>
+                            {
+                                nodesToDelete.Add(child);
+
+                                var cloneChild = child.Clone() as ITask;
+                                cloneChild.SetPosition(child.GetPosition());
+                                behaviorSubTree.DataSource.CreateNode(cloneChild);
+                                behaviorSubTree.DataSource.AddChild(cloneTask, cloneChild);
+                            });
+
+                            //create subtree node
+                            var subTree = new SubTree();
+                            subTree.BehaviourSubTree = behaviorSubTree;
+                            subTree.SetPosition(nodeView.Node.GetPosition());
+                            activeBehaviour.DataSource.CreateNode(subTree);
+                            activeBehaviour.DataSource.DeleteNodes(nodesToDelete);
+
+                            //set subtree parent node
+                            var parentNode = activeBehaviour.DataSource.FindNodeById(nodeTask.ParentId);
+                            if (parentNode != null)
+                            {
+                                activeBehaviour.DataSource.RemoveChild(parentNode, nodeTask);
+                                activeBehaviour.DataSource.AddChild(parentNode, subTree);
+                            }
+
+                            LoadBehaviorTree(activeBehaviour);
+                        }
+                    });
+                }
             }
 
             if (evt.target is BehaviourGraphView)
             {
-
-                GraphContextualManager.BuildMenu(evt, type =>
+                GraphContextualManager.AddTaskMenu(evt, node =>
                 {
-                    var node = (INode)Activator.CreateInstance(type);
                     node.SetPosition(contextualMousePosition);
                     activeBehaviour.DataSource.CreateNode(node);
                 });
@@ -393,15 +439,33 @@ namespace BehaviourGraph.Editor
 
     public class GraphContextualManager
     {
-        public static void BuildMenu(ContextualMenuPopulateEvent evt, Action<Type> callback)
+        public static void AddTaskMenu(ContextualMenuPopulateEvent evt, Action<INode> callback)
         {
-            AddTaskMenu<Action>(evt, "Actions", callback);
-            AddTaskMenu<Composite>(evt, "Composites", callback);
-            AddTaskMenu<Condition>(evt, "Conditions", callback);
-            AddTaskMenu<Decorator>(evt, "Decorators", callback);
+            BuildMenu<Action>(evt, "Add Task/Actions", callback);
+            BuildMenu<Composite>(evt, "Add Task/Composites", callback);
+            BuildMenu<Condition>(evt, "Add Task/Conditionals", callback);
+            BuildMenu<Decorator>(evt, "Add Task/Decorators", callback);
         }
 
-        private static void AddTaskMenu<T>(ContextualMenuPopulateEvent evt, string group, Action<Type> callback)
+        public static void DecorateMenu(ContextualMenuPopulateEvent evt, Action<INode> callback)
+        {
+            BuildMenu<Decorator>(evt, "Decorate/Decorators", callback);
+        }
+
+        public static void ReplaceMenu(ContextualMenuPopulateEvent evt, Action<INode> callback)
+        {
+            BuildMenu<Action>(evt, "Replace/Actions", callback);
+            BuildMenu<Composite>(evt, "Replace/Composites", callback);
+            BuildMenu<Condition>(evt, "Replace/Conditionals", callback);
+            BuildMenu<Decorator>(evt, "Replace/Decorators", callback);
+        }
+        
+        public static void BuildMenu<T>(ContextualMenuPopulateEvent evt, string group, Action<INode> callback)
+        {
+            CreateMenuFor<T>(evt, group, callback);
+        }
+
+        private static void CreateMenuFor<T>(ContextualMenuPopulateEvent evt, string group, Action<INode> callback)
         {
             foreach (var menu in BuildContextMenuItemsOfType<T>())
             {
@@ -411,7 +475,10 @@ namespace BehaviourGraph.Editor
                     continue;
                 }
 
-                evt.menu.AppendAction($"Add Task/{group}/{menu.ActionName}", a => callback(menu.Type));
+                evt.menu.AppendAction($"{group}/{menu.ActionName}", a => 
+                {
+                    callback((INode)Activator.CreateInstance(menu.Type));
+                });
             }
         }
 
