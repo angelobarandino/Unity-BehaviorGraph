@@ -73,7 +73,7 @@ namespace BehaviourGraph.Editor
                     break;
             }
 
-            SaveChangesToAsset();
+            SetAssetDirty();
         }
 
         private void CreateNodeView(INode node)
@@ -107,8 +107,7 @@ namespace BehaviourGraph.Editor
                 parentTask.GetChildren().ForEach(child =>
                 {
                     var childNode = FindGraphNodeView(child.Id);
-                    if (parentNode.TryConnectTo(childNode, out var edge))
-                        AddElement(edge);
+                    AddElement(parentNode.ConnectOutput(childNode));
                 });
             }
         }
@@ -237,6 +236,16 @@ namespace BehaviourGraph.Editor
                 EditorUtility.SetDirty(asset);
                 AssetDatabase.SaveAssets();
                 Debug.Log("CHANGES SAVED!");
+            }
+        }
+
+        public void SetAssetDirty()
+        {
+            var id = activeBehaviour.GetInstanceID();
+            var asset = EditorUtility.InstanceIDToObject(id);
+            if (asset)
+            {
+                EditorUtility.SetDirty(asset);
             }
         }
     }

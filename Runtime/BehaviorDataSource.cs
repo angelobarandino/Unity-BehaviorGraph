@@ -190,6 +190,12 @@ namespace BehaviourGraph.Runtime
 
         public void CreateNode(INode node)
         {
+            if (rootTask == null)
+            {
+                rootTask = (ITask)node;
+                rootTask?.SetRootTask(true);
+            }
+
             allNodes.Add(node);
             OnNodesUpdate.Invoke(node, TaskUpdateEvent.Add);
         }

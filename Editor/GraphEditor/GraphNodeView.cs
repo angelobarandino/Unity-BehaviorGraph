@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using BehaviourGraph.Editor.Ports;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -22,7 +23,7 @@ namespace BehaviourGraph.Editor
         }
 
         private NodePort input;
-        public NodePort Input 
+        public NodePort Input
         {
             get => input;
             set
@@ -41,7 +42,7 @@ namespace BehaviourGraph.Editor
         }
 
         private NodePort output;
-        public NodePort Output 
+        public NodePort Output
         {
             get => output;
             set
@@ -58,7 +59,7 @@ namespace BehaviourGraph.Editor
                 }
             }
         }
-        
+
         public IGraphView GraphView { get; set; }
         public Action Selected { get; set; }
 
@@ -68,12 +69,12 @@ namespace BehaviourGraph.Editor
             get => node;
         }
 
-        protected virtual void OnNodeUpdate()  {}
+        protected virtual void OnNodeUpdate() { }
 
         public override void SetPosition(Rect newPos)
         {
             base.SetPosition(newPos);
-            
+
             node.SetPosition(new Vector2(newPos.xMin, newPos.yMin));
         }
 
@@ -89,45 +90,43 @@ namespace BehaviourGraph.Editor
             Selected?.Invoke();
         }
 
-        public bool TryConnectTo(Port port, Direction direction, out Edge edge)
-        {
-            edge = null;
-            switch (direction)
-            {
-                case Direction.Input:
-                    if (Input != null && !Input.connected)
-                    {
-                        edge = Input.ConnectTo(port);
-                    }
-                    break;
-                case Direction.Output:
-                    if (Output != null)
-                    {
-                        edge = Output.ConnectTo(port);
-                    }
-                    break;
-            }
-
-            return edge != null;
-        }
-
-        public bool TryConnectTo(GraphNodeView graphNode, out Edge edge)
-        {
-            edge = null;
-            if (graphNode.Input != null)
-            {
-                edge = Output.ConnectTo(graphNode.Input);
-            }
-
-            return edge != null;
-        }
-
         public void SortChildren()
         {
             if (Node is IParentTask parentNode)
             {
                 parentNode.SortChildren();
             }
+        }
+
+        public Edge ConnectOutput(GraphNodeView nodeView)
+        {
+            return Connect(Output, nodeView.Input);
+        }
+
+        public Edge ConnectInput(GraphNodeView nodeView)
+        {
+            return Connect(nodeView.Output, Input);
+        }
+
+        private Edge Connect(NodePort output, NodePort input)
+        {
+            if (output == null || input == null) 
+                return null;
+
+            if (input.connected)
+                GraphView.DeleteElements(input.connections);
+
+            switch (output.capacity)
+            {
+                case Port.Capacity.Single when output.connected:
+                    GraphView.DeleteElements(output.connections);
+                    break;
+
+                case Port.Capacity.Multi when output.connections.Any(e => e.input == input):
+                    return null;
+            }
+
+            return output.ConnectTo(input);
         }
     }
 }

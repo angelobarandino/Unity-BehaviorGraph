@@ -72,7 +72,7 @@ namespace BehaviourGraph.Editor.Ports
 
             CheckIfDropAboveNode(position, graphView, node =>
             {
-                var newEdge = ConnectOnDroppedNode(currentEdge, node);
+                var newEdge = ConnectToDroppedNode(currentEdge, node);
                 if (newEdge != null)
                 {
                     this.edgesToCreate.Clear();
@@ -115,18 +115,13 @@ namespace BehaviourGraph.Editor.Ports
             }
         }
 
-        private Edge ConnectOnDroppedNode(Edge edge, GraphNodeView node)
+        private Edge ConnectToDroppedNode(Edge edge, GraphNodeView droppedNode)
         {
-            if (edge.input != null)
-            {
-                if (node.TryConnectTo(edge.input, Direction.Output, out var edgeToCreate))
-                    return edgeToCreate;
-            }
-            else if (edge.output != null)
-            {
-                if (node.TryConnectTo(edge.output, Direction.Input, out var edgeToCreate))
-                    return edgeToCreate;
-            }
+            if (edge.output?.node is GraphNodeView draggedOutputNode)
+                return droppedNode.ConnectInput(draggedOutputNode);
+
+            if (edge.input?.node is GraphNodeView draggedInputNode)
+                return droppedNode.ConnectOutput(draggedInputNode);
 
             return null;
         }
