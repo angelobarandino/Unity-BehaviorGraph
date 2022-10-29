@@ -48,9 +48,6 @@ namespace BehaviourGraph
 
         [SerializeField]
         protected BindData bindData;
-
-        protected IBlackboard blackboard;
-
         public BindData BindData
         {
             get => bindData;
@@ -76,6 +73,19 @@ namespace BehaviourGraph
         public abstract void SetValue(object value);
         public abstract Type GetVariableType();
         public abstract void Initialize(IBlackboard blackboard);
+
+        public object Clone()
+        {
+            var cloneObj = Activator.CreateInstance(GetType()) as IBBVariable;
+            cloneObj.Name = Name;
+            cloneObj.ReferenceName = ReferenceName;
+            cloneObj.IsReferenced = IsReferenced;
+            cloneObj.IsDynamic = IsDynamic;
+            cloneObj.Invalid = Invalid;
+            cloneObj.SetValue(GetValue());
+            cloneObj.Bind(bindData);
+            return cloneObj;
+        }
     }
 
     [Serializable]
@@ -89,6 +99,8 @@ namespace BehaviourGraph
 
         private Func<T> cachedValueGetter;
         private Action<T> cachedValueSetter;
+
+        protected IBlackboard blackboard;
 
         [SerializeField]
         private T value;

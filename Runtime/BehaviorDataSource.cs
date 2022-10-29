@@ -239,5 +239,10 @@ namespace BehaviourGraph.Runtime
 
             OnBehaviorAfterUpdate.Invoke(parent, TaskUpdateEvent.Update);
         }
+
+        public INode FindNodeById(string nodeId)
+        {
+            return allNodes.Find(node => node.Id == nodeId);
+        }
     }
 }

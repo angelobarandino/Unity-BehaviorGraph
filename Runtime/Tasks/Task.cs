@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using BehaviourGraph.Runtime.Utilities;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace BehaviourGraph.Runtime.Tasks
@@ -121,7 +121,7 @@ namespace BehaviourGraph.Runtime.Tasks
 
         private void InjectPropertyMappng()
         {
-            var variables = TypeLookup.GetFieldInfos(GetType());
+            var variables = TaskUtility.GetFieldInfos(GetType());
 
             foreach (var fieldInfo in variables)
             {
@@ -170,6 +170,11 @@ namespace BehaviourGraph.Runtime.Tasks
         public void SetRootTask(bool rootTask)
         {
             isRootTask = rootTask;
+        }
+
+        public object Clone()
+        {
+            return TaskUtility.CreateCopy(this);
         }
 #endif
 

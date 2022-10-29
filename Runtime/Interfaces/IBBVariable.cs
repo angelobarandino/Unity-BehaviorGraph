@@ -2,7 +2,7 @@
 
 namespace BehaviourGraph
 {
-    public interface IBBVariable
+    public interface IBBVariable : ICloneable
     {
         string Name { get; set; }
         bool Invalid { get; set; }

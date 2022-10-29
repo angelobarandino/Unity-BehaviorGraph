@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using BehaviourGraph.Runtime.Attributes;
+using BehaviourGraph.Runtime.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 
 namespace BehaviourGraph.Runtime.Utilities
 {
-    public static class TypeLookup
+    public static class TaskUtility
     {
         public static FieldInfo[] GetFieldInfos(Type type)
         {
@@ -40,6 +41,28 @@ namespace BehaviourGraph.Runtime.Utilities
             }
 
             return list;
+        }
+
+        public static object CreateCopy(Task task)
+        {
+            var cloneTask = Activator.CreateInstance(task.GetType());
+            var targetObj = GetFieldInfos(cloneTask.GetType());
+            var sourceObj = GetFieldInfos(task.GetType());
+            foreach (var field in targetObj)
+            {
+                foreach (var source in sourceObj)
+                {
+                    if (field.Name == source.Name && field.FieldType == source.FieldType)
+                    {
+                        if (source.GetValue(task) is IBBVariable variable)
+                        {
+                            field.SetValue(cloneTask, variable.Clone());
+                        }
+                    }
+                }
+            }
+
+            return cloneTask;
         }
     }
 }

@@ -17,7 +17,7 @@ namespace BehaviourGraph.Editor
 
             if (nodeProperty.GetUnderlyingValue() is INode node)
             {
-                var fieldVariables = TypeLookup.GetVariables(node.GetType());
+                var fieldVariables = TaskUtility.GetVariables(node.GetType());
 
                 fieldVariables.ForEach(fieldInfo =>
                 {

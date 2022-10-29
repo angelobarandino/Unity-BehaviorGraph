@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using BehaviourGraph.Runtime.Tasks;
 
 namespace BehaviourGraph.Runtime
 {
-    public interface ITask : INode
+    public interface ITask : INode, ICloneable
     {
         bool IsRootTask { get; }
         IBehaviourOwner Owner { get; }

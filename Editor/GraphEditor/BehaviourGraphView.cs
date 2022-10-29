@@ -18,6 +18,7 @@ namespace BehaviourGraph.Editor
         public new class UxmlFactory : UxmlFactory<BehaviourGraphView, GraphView.UxmlTraits> { }
 
         private IBehaviour activeBehaviour;
+        private Vector2 contextualMousePosition;
         private readonly BlackboardProvider blackboardProvider;
         private readonly NodeInspectorProvider nodeInspector;
 
@@ -41,11 +42,14 @@ namespace BehaviourGraph.Editor
 
             Undo.undoRedoPerformed -= OnUndoRedoPerformed;
             Undo.undoRedoPerformed += OnUndoRedoPerformed;
-        }
-
-        private void OnUndoRedoPerformed()
-        {
-            LoadBehaviourTree(activeBehaviour);
+            
+            //copy and paste callbacks
+            canPasteSerializedData -= HandleCanPasetSerializedData;
+            canPasteSerializedData += HandleCanPasetSerializedData;
+            serializeGraphElements -= HandleSerializeGraphElements;
+            serializeGraphElements += HandleSerializeGraphElements;
+            unserializeAndPaste -= HandleUnserializeAndPaste;
+            unserializeAndPaste += HandleUnserializeAndPaste;
         }
 
         public void LoadBehaviourTree(IBehaviour behaviour)
@@ -68,13 +72,13 @@ namespace BehaviourGraph.Editor
             activeBehaviour.DataSource.AllNodes.ForEach(node => CreateNodeEdges(node));
         }
 
-
         private void OnNodesUpdate(INode node, TaskUpdateEvent updateEvent)
         {
             switch (updateEvent)
             {
                 case TaskUpdateEvent.Create:
                     CreateNodeView(node);
+                    AddToSelection(node);
                     break;
                 case TaskUpdateEvent.Replace:
                     break;
@@ -119,11 +123,6 @@ namespace BehaviourGraph.Editor
                     AddElement(parentNode.ConnectOutput(childNode));
                 });
             }
-        }
-
-        private GraphNodeView FindGraphNodeView(string guid)
-        {
-            return GetNodeByGuid(guid) as GraphNodeView;
         }
 
         private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
@@ -176,6 +175,27 @@ namespace BehaviourGraph.Editor
             return graphViewChange;
         }
 
+        private Vector2 GetMousePosition(ContextualMenuPopulateEvent evt)
+        {
+            return (evt.currentTarget as VisualElement).ChangeCoordinatesTo(contentViewContainer, evt.localMousePosition);
+        }
+
+        private void OnUndoRedoPerformed()
+        {
+            LoadBehaviourTree(activeBehaviour);
+        }
+
+        private GraphNodeView FindGraphNodeView(string guid)
+        {
+            return GetNodeByGuid(guid) as GraphNodeView;
+        }
+
+        private void AddToSelection(INode node)
+        {
+            AddToSelection(FindGraphNodeView(node.Id));
+        }
+
+        #region GraphView Overriden Methods
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
         {
             return ports.Where(endPort => endPort.direction != startPort.direction && endPort.node != startPort.node).ToList();
@@ -183,10 +203,13 @@ namespace BehaviourGraph.Editor
 
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
-            var position = GetMousePosition(evt);
-
+            contextualMousePosition = GetMousePosition(evt);
             if (evt.target is TaskNodeView nodeView)
             {
+                evt.menu.AppendAction("Copy", a => CopySelectionCallback());
+                evt.menu.AppendAction("Delete", a => DeleteSelectionCallback(AskUser.AskUser));
+
+                evt.menu.AppendSeparator();
                 evt.menu.AppendAction("Set Start", a =>
                 {
                     //check if there is an existing assigned root task and remove it
@@ -207,10 +230,13 @@ namespace BehaviourGraph.Editor
             }
             else
             {
+                evt.menu.AppendAction("Paste", a => PasteCallback(), canPaste ? DropdownMenuAction.Status.Normal : DropdownMenuAction.Status.Disabled);
+                evt.menu.AppendSeparator();
+
                 GraphContextualManager.BuildMenu(evt, type =>
                 {
                     var node = (INode)Activator.CreateInstance(type);
-                    node.SetPosition(position);
+                    node.SetPosition(contextualMousePosition);
                     activeBehaviour.DataSource.CreateNode(node);
                 });
 
@@ -218,24 +244,21 @@ namespace BehaviourGraph.Editor
                 evt.menu.AppendAction("Behaviour SubTree", a =>
                 {
                     var subTree = new SubTree();
-                    subTree.SetPosition(position);
+                    subTree.SetPosition(contextualMousePosition);
                     activeBehaviour.DataSource.CreateNode(subTree);
                 });
 
                 evt.menu.AppendAction("Create Action Task", a =>
                 {
                     var actionTask = new ActionTask();
-                    actionTask.SetPosition(position);
+                    actionTask.SetPosition(contextualMousePosition);
                     activeBehaviour.DataSource.CreateNode(actionTask);
                 });
             }
         }
+        #endregion
 
-        private Vector2 GetMousePosition(ContextualMenuPopulateEvent evt)
-        {
-            return (evt.currentTarget as VisualElement).ChangeCoordinatesTo(contentViewContainer, evt.localMousePosition);
-        }
-
+        #region IGraphView Implemented Methods
         public UnityEngine.Object GetAssetInstance()
         {
             var id = activeBehaviour.GetInstanceID();
@@ -258,6 +281,59 @@ namespace BehaviourGraph.Editor
             var name = $"{updateEvent} Node ({activeBehaviour.Name})";
             Undo.RegisterCompleteObjectUndo(GetAssetInstance(), name);
         }
+        #endregion
+
+        #region Copy And Paste Method Callbacks
+        private bool HandleCanPasetSerializedData(string data)
+        {
+            var nodeIds = data.Split('|');
+            if (nodeIds.Length == 0) return false;
+            return nodeIds.All(guid => Guid.TryParse(guid, out var id));
+        }
+
+        private string HandleSerializeGraphElements(IEnumerable<GraphElement> elementsToCopy)
+        {
+            var nodes = new List<INode>();
+            foreach (var element in elementsToCopy)
+                if (element is GraphNodeView nodeView)
+                    nodes.Add(nodeView.Node);
+
+            nodes.Sort((lNode, rNode) =>
+            {
+                return lNode.GetPosition().x < rNode.GetPosition().x ? -1 : 1;
+            });
+
+            return string.Join("|", nodes.Select(n => n.Id));
+        }
+
+        private void HandleUnserializeAndPaste(string operationName, string data)
+        {
+            if (operationName == "Paste")
+            {
+                ClearSelection();
+
+                var nodeIds = data.Split('|').ToList();
+                var lastNodePosition = Vector2.zero;
+                nodeIds.ForEach(nodeId =>
+                {
+                    var node = activeBehaviour.DataSource.FindNodeById(nodeId);
+                    if (node != null)
+                    {
+                        if (lastNodePosition != Vector2.zero)
+                        {
+                            contextualMousePosition += node.GetPosition() - lastNodePosition;
+                        }
+
+                        var cloneNode = (INode)(node as ITask).Clone();
+                        cloneNode.SetPosition(contextualMousePosition);
+                        activeBehaviour.DataSource.CreateNode(cloneNode);
+                        lastNodePosition = node.GetPosition();
+                    }
+                });
+            }
+        }
+        #endregion
+
     }
 
     public class GraphContextualManager
