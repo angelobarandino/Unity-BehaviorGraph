@@ -1,3 +1,4 @@
+using System;
 using BehaviourGraph.Runtime;
 using UnityEditor;
 using UnityEditor.Callbacks;
@@ -72,13 +73,39 @@ namespace BehaviourGraph.Editor
             }
         }
 
-        private static string GetTitle(string name)
+        private string GetTitle(string name)
         {
             var title = Selection.activeObject.name;
             if (Selection.activeGameObject)
                 title += $"({name})";
             title += " - Behaviour";
             return title;
+        }
+
+        private void OnEnable()
+        {
+            EditorApplication.playModeStateChanged -= OnPlayModeStateChange;
+            EditorApplication.playModeStateChanged += OnPlayModeStateChange;
+        }
+
+        private void OnPlayModeStateChange(PlayModeStateChange state)
+        {
+            if (graphView == null) return;
+
+            switch (state)
+            {
+                case PlayModeStateChange.ExitingPlayMode:
+                    graphView.nodes.ForEach(node => (node as GraphNodeView).SetEditModeState());
+                    break;
+            }
+        }
+
+        private void OnInspectorUpdate()
+        {
+            if (Application.isPlaying && graphView != null)
+            {
+                graphView.nodes.ForEach(node => (node as GraphNodeView).SetPlayModeState());
+            }
         }
     }
 }

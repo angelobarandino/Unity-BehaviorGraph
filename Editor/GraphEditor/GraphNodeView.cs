@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Linq;
 using BehaviourGraph.Editor.Ports;
+using BehaviourGraph.Runtime.Tasks;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace BehaviourGraph.Editor
 {
     public abstract class GraphNodeView : Node
     {
+        private bool isPlaymode;
         private readonly INode node;
 
         public GraphNodeView(INode node, string uiFile) : base(uiFile)
@@ -16,6 +19,7 @@ namespace BehaviourGraph.Editor
             base.title = this.node.Name;
             viewDataKey = this.node.Id;
 
+            AddToClassList("editorMode");
             UseNodePosition(node.GetPosition());
 
             Node.OnNodeUpdate -= OnNodeUpdate;
@@ -61,7 +65,7 @@ namespace BehaviourGraph.Editor
         }
 
         public IGraphView GraphView { get; set; }
-        public Action Selected { get; set; }
+        public System.Action Selected { get; set; }
 
         public INode Node
         {
@@ -128,6 +132,42 @@ namespace BehaviourGraph.Editor
             }
 
             return output.ConnectTo(input);
+        }
+
+        private VisualElement bodyContent;
+        public VisualElement BodyContent
+        {
+            get => bodyContent ??= this.Q<VisualElement>("body-content");
+        }
+
+        public void SetEditModeState()
+        {
+            isPlaymode = false;
+            BodyContent.ClearClassList();
+
+            AddToClassList("editorMode");
+            RemoveFromClassList("playMode");
+
+            Input?.SetState(NodeState.Ready, includeEdges: true);
+            Output?.SetState(NodeState.Ready, includeEdges: false);
+        }
+
+        public void SetPlayModeState()
+        {
+            if (!isPlaymode)
+            {
+                isPlaymode = true;
+                AddToClassList("playMode");
+                RemoveFromClassList("editorMode");
+            }
+
+            var state = ((Runtime.ITask)Node).State;
+
+            BodyContent.ClearClassList();
+            BodyContent.AddToClassList(state.ToString());
+
+            Input?.SetState(state, includeEdges: true);
+            Output?.SetState(state, includeEdges: false);
         }
     }
 }

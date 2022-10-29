@@ -129,12 +129,12 @@
     background-color: rgb(57, 57, 58);
 }
 
-#container #connector #cap {
-    border-radius: 6px;
+#container #connector > #cap {
     width: 30px;
     height: 10px;
     background-color: rgb(76, 78, 82);
 }
+
 
 .graphElement.node {
     margin-left: 0;
@@ -148,10 +148,6 @@
 }
 
 :hover > #body-content {
-    border-left-width: 2px;
-    border-right-width: 2px;
-    border-top-width: 2px;
-    border-bottom-width: 2px;
     border-left-color: rgb(114, 151, 185);
     border-right-color: rgb(114, 151, 185);
     border-top-color: rgb(114, 151, 185);
@@ -159,47 +155,10 @@
 }
 
 :checked #body-content {
-    border-left-width: 2px;
-    border-right-width: 2px;
-    border-top-width: 2px;
-    border-bottom-width: 2px;
     border-left-color: rgb(40, 125, 207);
     border-right-color: rgb(40, 125, 207);
     border-top-color: rgb(40, 125, 207);
     border-bottom-color: rgb(40, 125, 207);
-}
-
-.Running #body-content {
-    border-left-color: rgb(145, 104, 168);
-    border-right-color: rgb(145, 104, 168);
-    border-top-color: rgb(145, 104, 168);
-    border-bottom-color: rgb(145, 104, 168);
-    border-left-width: 3px;
-    border-right-width: 3px;
-    border-top-width: 3px;
-    border-bottom-width: 3px;
-}
-
-.Success #body-content {
-    border-left-width: 3px;
-    border-right-width: 3px;
-    border-top-width: 3px;
-    border-bottom-width: 3px;
-    border-left-color: rgb(88, 178, 101);
-    border-right-color: rgb(88, 178, 101);
-    border-top-color: rgb(88, 178, 101);
-    border-bottom-color: rgb(88, 178, 101);
-}
-
-.Failure #body-content {
-    border-left-width: 3px;
-    border-right-width: 3px;
-    border-top-width: 3px;
-    border-bottom-width: 3px;
-    border-left-color: rgb(204, 70, 70);
-    border-right-color: rgb(204, 70, 70);
-    border-top-color: rgb(204, 70, 70);
-    border-bottom-color: rgb(204, 70, 70);
 }
 
 .startTask #start-label {
@@ -208,18 +167,6 @@
 
 .startTask #top {
     display: none;
-}
-
-.nodeTask .port.Running {
-    --port-color: rgb(145, 104, 168);
-}
-
-.nodeTask .port.Success {
-    --port-color: rgb(88, 178, 101);
-}
-
-.nodeTask .port.Failure {
-    --port-color: rgb(204, 70, 70);
 }
 
 .portWrapper {
@@ -239,10 +186,6 @@
 .connectorText {
     width: 0;
     display: flex;
-}
-
-#container .port {
-    --port-color: rgb(125, 130, 137);
 }
 
 #input-container #connector {
@@ -297,4 +240,25 @@
     margin-right: 5px;
     margin-top: 5px;
     margin-bottom: 5px;
+}
+
+.playMode #body-content.Running {
+    border-left-color: rgb(145, 104, 168);
+    border-right-color: rgb(145, 104, 168);
+    border-top-color: rgb(145, 104, 168);
+    border-bottom-color: rgb(145, 104, 168);
+}
+
+.playMode #body-content.Success {
+    border-left-color: rgb(88, 178, 101);
+    border-right-color: rgb(88, 178, 101);
+    border-top-color: rgb(88, 178, 101);
+    border-bottom-color: rgb(88, 178, 101);
+}
+
+.playMode #body-content.Failure {
+    border-left-color: rgb(204, 70, 70);
+    border-right-color: rgb(204, 70, 70);
+    border-top-color: rgb(204, 70, 70);
+    border-bottom-color: rgb(204, 70, 70);
 }

@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-using UnityEditor;
+﻿using System;
+using System.Collections.Generic;
+using BehaviourGraph.Runtime.Tasks;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -21,8 +22,54 @@ namespace BehaviourGraph.Editor.Ports
                 m_EdgeConnector = new EdgeConnector<Edge>(listener)
             };
             port.AddManipulator(port.m_EdgeConnector);
+            port.SetState(NodeState.Ready);
             port.portCapLit = false;
             return port;
+        }
+
+        public void SetState(NodeState state, bool includeEdges = false)
+        {
+            switch (state)
+            {
+                case NodeState.Ready:
+                    if (ColorUtility.TryParseHtmlString("#7d8289d9", out var readyColor))
+                    {
+                        portColor = readyColor;
+                    }
+                    break;
+
+                case NodeState.Running:
+                    if (ColorUtility.TryParseHtmlString("#9168a8d9", out var runningColor))
+                    {
+                        portColor = runningColor;
+                    }
+                    break;
+
+                case NodeState.Success:
+                    if (ColorUtility.TryParseHtmlString("#58b265d9", out var successColor))
+                    {
+                        portColor = successColor;
+                    }
+                    break;
+
+                case NodeState.Failure:
+                    if (ColorUtility.TryParseHtmlString("#cc4646d9", out var failureColor))
+                    {
+                        portColor = failureColor;
+                    }
+                    break;
+            }
+
+            if (connected && includeEdges)
+            {
+                foreach (var edge in connections)
+                {
+                    edge.edgeControl.toCapColor = portColor;
+                    edge.edgeControl.fromCapColor = portColor;
+                    edge.edgeControl.outputColor = portColor;
+                    edge.edgeControl.inputColor = portColor;
+                }
+            }
         }
     }
 
