@@ -5,8 +5,8 @@ namespace BehaviourGraph.Runtime
 {
 
     [RequireComponent(typeof(BlackboardVariable))]
-    [AddComponentMenu("Behaviour Graph/Behaviour Owner")]
-    public class BehaviourOwner : MonoBehaviour, IBehaviourOwner
+    [AddComponentMenu("Behavior Graph/Behavior Owner")]
+    public class BehaviorOwner : MonoBehaviour, IBehaviourOwner
     {
         public enum UpdateMode
         {
@@ -17,7 +17,7 @@ namespace BehaviourGraph.Runtime
         }
 
         [SerializeField]
-        private BehaviourAsset behaviourAsset;
+        private BehaviorAsset behaviorAsset;
 
         [SerializeField]
         private UpdateMode updateMode = UpdateMode.Update;
@@ -32,7 +32,7 @@ namespace BehaviourGraph.Runtime
         
         private void Start()
         {
-            behaviourAsset.DataSource.AllNodes.ForEach(node =>
+            behaviorAsset.DataSource.AllNodes.ForEach(node =>
             {
                 (node as ITask).Initialize(this);
             });
@@ -57,18 +57,23 @@ namespace BehaviourGraph.Runtime
         {
             if (this.updateMode != evaluateUpdateMode) return;
 
-            if (behaviourAsset.DataSource.RootTask != null && state == NodeState.Running)
+            if (behaviorAsset.DataSource.RootTask != null && state == NodeState.Running)
             {
-                state = behaviourAsset.DataSource.RootTask.Evaluate(Blackboard);
+                state = behaviorAsset.DataSource.RootTask.Evaluate(Blackboard);
             }
         }
 
-        public IBehaviour GetBehaviour()
+        public void SetBehavior(BehaviorAsset behaviorAsset)
         {
-            if (behaviourAsset != null)
+            this.behaviorAsset = behaviorAsset;
+        }
+
+        public IBehaviour GetBehavior()
+        {
+            if (behaviorAsset != null)
             {
-                behaviourAsset.BehaviourOwner = this;
-                return behaviourAsset;
+                behaviorAsset.BehaviourOwner = this;
+                return behaviorAsset;
             }
 
             return null;

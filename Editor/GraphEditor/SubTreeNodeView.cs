@@ -66,7 +66,7 @@ namespace BehaviourGraph.Editor
                 var projectDir = Application.dataPath.Replace("Assets", string.Empty);
                 var assetPath = path.Replace(projectDir, string.Empty);
 
-                var asset = ScriptableObject.CreateInstance<BehaviourSubTree>();
+                var asset = ScriptableObject.CreateInstance<BehaviorSubTree>();
                 AssetDatabase.CreateAsset(asset, assetPath);
                 AssetDatabase.SaveAssets();
 

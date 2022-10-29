@@ -7,14 +7,14 @@ namespace BehaviourGraph.Runtime.Tasks
     public class SubTree : Task, ISubTree
     {
         [SerializeField]
-        private BehaviourSubTree subTree;
+        private BehaviorSubTree subTree;
 
         public SubTree()
         {
             Name = "Behaviour SubTree";
         }
 
-        public BehaviourSubTree BehaviourSubTree
+        public BehaviorSubTree BehaviourSubTree
         {
             get => subTree;
             set => subTree = value; 

@@ -9,7 +9,7 @@ namespace BehaviourGraph
         GameObject gameObject { get; }
         IBlackboard Blackboard { get; }
 
-        IBehaviour GetBehaviour();
+        IBehaviour GetBehavior();
 
         T GetComponent<T>();
         Coroutine StartCoroutine(IEnumerator enumerator);

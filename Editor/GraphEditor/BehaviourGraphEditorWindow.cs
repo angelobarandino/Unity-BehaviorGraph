@@ -18,6 +18,7 @@ namespace BehaviourGraph.Editor
         {
             BehaviourGraphEditorWindow wnd = GetWindow<BehaviourGraphEditorWindow>();
             wnd.titleContent = new GUIContent("Behaviour Graph Editor");
+            wnd.OnSelectionChange();
         }
 
         [OnOpenAsset]
@@ -58,7 +59,7 @@ namespace BehaviourGraph.Editor
             {
                 IBehaviour behaviour = null;
                 if (Selection.activeGameObject && Selection.activeGameObject.TryGetComponent<IBehaviourOwner>(out var owner))
-                    behaviour = owner.GetBehaviour();
+                    behaviour = owner.GetBehavior();
 
                 if (Selection.activeObject is IBehaviour behaviourObject)
                     behaviour = behaviourObject;
@@ -67,7 +68,6 @@ namespace BehaviourGraph.Editor
                 {
                     graphNameLabel.text = GetTitle(behaviour.Name);
                     graphView.LoadBehaviourTree(behaviour);
-                    Focus();
                 }
             }
         }

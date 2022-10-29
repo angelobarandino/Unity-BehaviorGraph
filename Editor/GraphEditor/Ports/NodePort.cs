@@ -3,14 +3,9 @@ using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static UnityEditor.Experimental.GraphView.Port;
 
 namespace BehaviourGraph.Editor.Ports
 {
-    public class NodeEdge : Edge
-    {
-    }
-
     public class NodePort : Port
     {
         protected NodePort(Direction portDirection, Capacity portCapacity) : base(Orientation.Vertical, portDirection, portCapacity, typeof(INode))
@@ -40,120 +35,6 @@ namespace BehaviourGraph.Editor.Ports
             box.style.height = 10f;
             box.style.backgroundColor = Color.red;
             Add(box);
-        }
-    }
-
-    public class NodeEdgeConnectorListener : IEdgeConnectorListener
-    {
-        private GraphViewChange m_GraphViewChange;
-        private List<Edge> m_EdgesToCreate;
-        private List<GraphElement> m_EdgesToDelete;
-
-        public NodeEdgeConnectorListener()
-        {
-            m_EdgesToCreate = new List<Edge>();
-            m_EdgesToDelete = new List<GraphElement>();
-            m_GraphViewChange.edgesToCreate = m_EdgesToCreate;
-        }
-
-        public void OnDrop(GraphView graphView, Edge edge)
-        {
-            m_EdgesToCreate.Clear();
-            m_EdgesToCreate.Add(edge);
-            m_EdgesToDelete.Clear();
-
-            if (edge.input.capacity == Capacity.Single)
-            {
-                foreach (Edge connection in edge.input.connections)
-                {
-                    if (connection != edge)
-                    {
-                        m_EdgesToDelete.Add(connection);
-                    }
-                }
-            }
-
-            if (edge.output.capacity == Capacity.Single)
-            {
-                foreach (Edge connection2 in edge.output.connections)
-                {
-                    if (connection2 != edge)
-                    {
-                        m_EdgesToDelete.Add(connection2);
-                    }
-                }
-            }
-
-            if (m_EdgesToDelete.Count > 0)
-            {
-                graphView.DeleteElements(m_EdgesToDelete);
-            }
-
-            var edgesToCreate = m_EdgesToCreate;
-            if (graphView.graphViewChanged != null)
-            {
-                edgesToCreate = graphView.graphViewChanged(m_GraphViewChange).edgesToCreate;
-            }
-
-            foreach (var item in edgesToCreate)
-            {
-                graphView.AddElement(item);
-                edge.input.Connect(item);
-                edge.output.Connect(item);
-            }
-        }
-
-        public void OnDropOutsidePort(Edge edge, Vector2 position)
-        {
-            var graphView = edge.panel.visualTree.Q<GraphView>("graph-view");
-
-            TryConnectingPorts(edge, position, graphView);
-
-            //var provider = ScriptableObject.CreateInstance<SearchWindowProvider>();
-
-            //var draggedPort = (edge.output?.edgeConnector.edgeDragHelper.draggedPort) ?? (edge.input?.edgeConnector.edgeDragHelper.draggedPort);
-
-            //SearchWindow.Open(new SearchWindowContext(GUIUtility.GUIToScreenPoint(Event.current.mousePosition)), provider);
-        }
-
-        private void TryConnectingPorts(Edge edge, Vector2 position, GraphView graphView)
-        {
-            var dropPos = graphView.viewTransform.matrix.inverse.MultiplyPoint(position - new Vector2(10, 50));
-
-            foreach (var element in graphView.graphElements)
-            {
-                if (element is GraphNodeView node)
-                {
-                    if (node.GetPosition().Contains(dropPos))
-                    {
-                        m_EdgesToCreate.Clear();
-                        
-                        if (edge.input != null)
-                        {
-                            if (node.TryConnectTo(edge.input, Direction.Output, out var edgeToCreate))
-                                m_EdgesToCreate.Add(edgeToCreate);
-                        }
-                        else if (edge.output != null)
-                        {
-                            if (node.TryConnectTo(edge.output, Direction.Input, out var edgeToCreate))
-                                m_EdgesToCreate.Add(edgeToCreate);
-                        }
-
-                        var edgesToCreate = m_EdgesToCreate;
-                        if (graphView.graphViewChanged != null)
-                        {
-                            edgesToCreate = graphView.graphViewChanged(m_GraphViewChange).edgesToCreate;
-                        }
-
-                        foreach (var item in edgesToCreate)
-                        {
-                            graphView.AddElement(item);
-                        }
-
-                        break;
-                    }
-                }
-            }
         }
     }
 

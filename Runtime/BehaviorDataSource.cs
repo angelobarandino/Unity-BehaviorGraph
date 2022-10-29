@@ -8,7 +8,7 @@ using UnityEngine;
 namespace BehaviourGraph.Runtime
 {
     [Serializable]
-    public class BehaviourDataSource
+    public class BehaviorDataSource
     {
         [SerializeReference]
         private ITask rootTask;

@@ -6,7 +6,7 @@ namespace BehaviourGraph.Runtime
     {
         string Name { get; }
         IBehaviourOwner BehaviourOwner { get; }
-        BehaviourDataSource DataSource { get; }
+        BehaviorDataSource DataSource { get; }
         NodeState Evaluate(IBlackboard blackboard);
 
         int GetInstanceID();

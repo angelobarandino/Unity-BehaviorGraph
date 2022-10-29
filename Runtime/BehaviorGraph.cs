@@ -3,13 +3,13 @@ using UnityEngine;
 
 namespace BehaviourGraph.Runtime
 {
-    public abstract class BehaviourGraph : ScriptableObject, IBehaviour
+    public abstract class BehaviorGraph : ScriptableObject, IBehaviour
     {
         public string Name => name;
 
         [SerializeField]
-        private BehaviourDataSource dataSource;
-        public BehaviourDataSource DataSource
+        private BehaviorDataSource dataSource;
+        public BehaviorDataSource DataSource
         {
             get => dataSource;
         }
