@@ -1,7 +1,9 @@
 ﻿using BehaviourGraph.Editor.Ports;
 using BehaviourGraph.Runtime;
+using BehaviourGraph.Runtime.Tasks;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
+using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -60,20 +62,12 @@ namespace BehaviourGraph.Editor
 
         private void CreateNewClicked()
         {
-            var path = EditorUtility.SaveFilePanel("Create BehaviourSubTree", "Assets", "BehaviourSubTree", "asset");
-            if (path.Length != 0)
+            if (Node is ISubTree subTree)
             {
-                var projectDir = Application.dataPath.Replace("Assets", string.Empty);
-                var assetPath = path.Replace(projectDir, string.Empty);
+                subTree.BehaviourSubTree = BehaviorAssetUtility.Create<BehaviorSubTree>(
+                    "Create BehaviorSubTree", "BehaviorSubTree");
 
-                var asset = ScriptableObject.CreateInstance<BehaviorSubTree>();
-                AssetDatabase.CreateAsset(asset, assetPath);
-                AssetDatabase.SaveAssets();
-
-                if (Node is ISubTree subTree)
-                {
-                    subTree.BehaviourSubTree = asset;
-                }
+                CheckBehaviourAsset();
             }
         }
 

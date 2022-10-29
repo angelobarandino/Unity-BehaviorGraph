@@ -8,7 +8,7 @@ namespace BehaviourGraph.Runtime
         public string Name => name;
 
         [SerializeField]
-        private BehaviorDataSource dataSource;
+        private BehaviorDataSource dataSource = new();
         public BehaviorDataSource DataSource
         {
             get => dataSource;

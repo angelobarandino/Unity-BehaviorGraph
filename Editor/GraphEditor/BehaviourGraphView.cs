@@ -5,6 +5,7 @@ using System.Reflection;
 using BehaviourGraph.Runtime;
 using BehaviourGraph.Runtime.Attributes;
 using BehaviourGraph.Runtime.Tasks;
+using CityBuilder.AI.Tasks.Actions;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -242,7 +243,51 @@ namespace BehaviourGraph.Editor
 
                 evt.menu.AppendAction("Convert To SubTree", a =>
                 {
+                    var behaviorSubTree = BehaviorAssetUtility.Create<BehaviorSubTree>(
+                        "Create BehaviorSubTree", "BehaviorSubTree");
 
+                    if (behaviorSubTree == null)
+                        return;
+
+                    if (nodeView.Node is ITask nodeTask)
+                    {
+                        var nodesToDelete = new List<INode>();
+                        nodesToDelete.Add(nodeTask);
+
+                        //create and set sub tree root node
+                        var cloneTask = nodeTask.Clone() as ITask;
+                        cloneTask.SetPosition(nodeTask.GetPosition());
+                        cloneTask.SetRootTask(true);
+                        behaviorSubTree.DataSource.CreateNode(cloneTask);
+
+                        //copy children to subtree
+                        nodeTask.GetChildren().ForEach(child =>
+                        {
+                            nodesToDelete.Add(child);
+
+                            var cloneChild = child.Clone() as ITask;
+                            cloneChild.SetPosition(child.GetPosition());
+                            behaviorSubTree.DataSource.CreateNode(cloneChild);
+                            behaviorSubTree.DataSource.AddChild(cloneTask, cloneChild);
+                        });
+
+                        //create subtree node
+                        var subTree = new SubTree();
+                        subTree.BehaviourSubTree = behaviorSubTree;
+                        subTree.SetPosition(nodeView.Node.GetPosition());
+                        activeBehaviour.DataSource.CreateNode(subTree);
+                        activeBehaviour.DataSource.DeleteNodes(nodesToDelete);
+
+                        //set subtree parent node
+                        var parentNode = activeBehaviour.DataSource.FindNodeById(nodeTask.ParentId);
+                        if (parentNode != null)
+                        {
+                            activeBehaviour.DataSource.RemoveChild(parentNode, nodeTask);
+                            activeBehaviour.DataSource.AddChild(parentNode, subTree);
+                        }
+
+                        LoadBehaviourTree(activeBehaviour);
+                    }
                 });
             }
             else
