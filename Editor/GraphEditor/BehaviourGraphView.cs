@@ -260,12 +260,13 @@ namespace BehaviourGraph.Editor
                     var parentNode = activeBehaviour.DataSource.FindNodeById(nodeView.Node.ParentId);
                     if (parentNode != null)
                     {
+                        //set the decorator node as its new child
                         activeBehaviour.DataSource.RemoveChild(parentNode, nodeView.Node);
                         activeBehaviour.DataSource.AddChild(parentNode, decoratorNode);
                     }
 
                     //set task to decorate parent to the decorator node
-                    position += new Vector2(0, 150f);
+                    position += new Vector2(0, 130f);
                     nodeView.Node.SetPosition(position);
                     activeBehaviour.DataSource.AddChild(decoratorNode, nodeView.Node);
 
@@ -275,7 +276,7 @@ namespace BehaviourGraph.Editor
                         parentTask.GetChildren().ForEach(node =>
                         {
                             var currentPos = node.GetPosition();
-                            currentPos.y += 150f;
+                            currentPos.y += 130f;
                             node.SetPosition(currentPos);
                         });
                     }
@@ -286,8 +287,33 @@ namespace BehaviourGraph.Editor
 
                 GraphContextualManager.ReplaceMenu(evt, replacementNode =>
                 {
+                    //create the replacement node
                     replacementNode.SetPosition(nodeView.Node.GetPosition());
                     activeBehaviour.DataSource.CreateNode(replacementNode);
+
+                    //check if task to replace has parent connected
+                    var parentNode = activeBehaviour.DataSource.FindNodeById(nodeView.Node.ParentId);
+                    if (parentNode != null)
+                    {
+                        //set the replacement node as its new child
+                        activeBehaviour.DataSource.RemoveChild(parentNode, nodeView.Node);
+                        activeBehaviour.DataSource.AddChild(parentNode, replacementNode);
+                    }
+
+                    //attach children to the replacement node
+                    if (nodeView.Node is IParentTask parentTask)
+                    {
+                        parentTask.GetChildren().ForEach(node =>
+                        {
+                            activeBehaviour.DataSource.AddChild(replacementNode, node);
+                        });
+                    }
+
+                    //remove node to replace    
+                    activeBehaviour.DataSource.RemoveNode(nodeView.Node);
+
+                    //reload behavior tree
+                    LoadBehaviorTree(activeBehaviour);
                 });
 
                 evt.menu.AppendSeparator();
