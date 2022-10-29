@@ -2,7 +2,7 @@
 {
     public enum TaskUpdateEvent
     {
-        Add,
+        Create,
         Replace,
         Decorate,
         Remove,

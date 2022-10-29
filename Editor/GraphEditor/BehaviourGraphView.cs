@@ -17,7 +17,6 @@ namespace BehaviourGraph.Editor
     {
         public new class UxmlFactory : UxmlFactory<BehaviourGraphView, GraphView.UxmlTraits> { }
 
-
         private IBehaviour activeBehaviour;
         private readonly BlackboardProvider blackboardProvider;
         private readonly NodeInspectorProvider nodeInspector;
@@ -39,6 +38,14 @@ namespace BehaviourGraph.Editor
 
             blackboardProvider = new BlackboardProvider(this);
             nodeInspector = new NodeInspectorProvider(this);
+
+            Undo.undoRedoPerformed -= OnUndoRedoPerformed;
+            Undo.undoRedoPerformed += OnUndoRedoPerformed;
+        }
+
+        private void OnUndoRedoPerformed()
+        {
+            LoadBehaviourTree(activeBehaviour);
         }
 
         public void LoadBehaviourTree(IBehaviour behaviour)
@@ -50,8 +57,12 @@ namespace BehaviourGraph.Editor
             DeleteElements(graphElements);
             graphViewChanged += OnGraphViewChanged;
 
-            activeBehaviour.DataSource.OnNodesUpdate -= OnNodesUpdate;
-            activeBehaviour.DataSource.OnNodesUpdate += OnNodesUpdate;
+            activeBehaviour.DataSource.OnBehaviorAfterUpdate -= OnNodesUpdate;
+            activeBehaviour.DataSource.OnBehaviorAfterUpdate += OnNodesUpdate;
+            activeBehaviour.DataSource.OnBehaviorBeforeUpdate = updateEvent =>
+            {
+                RecordObjectUndo(updateEvent);
+            };
 
             activeBehaviour.DataSource.AllNodes.ForEach(node => CreateNodeView(node));
             activeBehaviour.DataSource.AllNodes.ForEach(node => CreateNodeEdges(node));
@@ -62,7 +73,7 @@ namespace BehaviourGraph.Editor
         {
             switch (updateEvent)
             {
-                case TaskUpdateEvent.Add:
+                case TaskUpdateEvent.Create:
                     CreateNodeView(node);
                     break;
                 case TaskUpdateEvent.Replace:
@@ -72,8 +83,6 @@ namespace BehaviourGraph.Editor
                 case TaskUpdateEvent.Remove:
                     break;
             }
-
-            SetAssetDirty();
         }
 
         private void CreateNodeView(INode node)
@@ -227,10 +236,15 @@ namespace BehaviourGraph.Editor
             return (evt.currentTarget as VisualElement).ChangeCoordinatesTo(contentViewContainer, evt.localMousePosition);
         }
 
-        public void SaveChangesToAsset()
+        public UnityEngine.Object GetAssetInstance()
         {
             var id = activeBehaviour.GetInstanceID();
-            var asset = EditorUtility.InstanceIDToObject(id);
+            return EditorUtility.InstanceIDToObject(id);
+        }
+
+        public void SaveChangesToAsset()
+        {
+            var asset = GetAssetInstance();
             if (asset)
             {
                 EditorUtility.SetDirty(asset);
@@ -239,14 +253,10 @@ namespace BehaviourGraph.Editor
             }
         }
 
-        public void SetAssetDirty()
+        public void RecordObjectUndo(TaskUpdateEvent updateEvent)
         {
-            var id = activeBehaviour.GetInstanceID();
-            var asset = EditorUtility.InstanceIDToObject(id);
-            if (asset)
-            {
-                EditorUtility.SetDirty(asset);
-            }
+            var name = $"{updateEvent} Node ({activeBehaviour.Name})";
+            Undo.RegisterCompleteObjectUndo(GetAssetInstance(), name);
         }
     }
 

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using BehaviourGraph.Runtime.Tasks;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace BehaviourGraph.Runtime
@@ -14,12 +12,13 @@ namespace BehaviourGraph.Runtime
         private ITask rootTask;
         public ITask RootTask => rootTask;
 
-
         [SerializeReference]
         private List<INode> allNodes = new();
         public List<INode> AllNodes => allNodes;
 
-        public Action<INode, TaskUpdateEvent> OnNodesUpdate { get; set; }
+
+        public Action<TaskUpdateEvent> OnBehaviorBeforeUpdate { get; set; }
+        public Action<INode, TaskUpdateEvent> OnBehaviorAfterUpdate { get; set; }
         public Action<Task, TaskUpdateEvent> OnDataSourceUpdate { get; set; }
 
 
@@ -169,6 +168,8 @@ namespace BehaviourGraph.Runtime
 
         public void SetRootTask(INode node)
         {
+            OnBehaviorBeforeUpdate?.Invoke(TaskUpdateEvent.Update);
+
             if (node is ITask newRooTask)
             {
                 rootTask?.SetRootTask(false);
@@ -185,11 +186,13 @@ namespace BehaviourGraph.Runtime
                 rootTask.ParentId = Guid.Empty;
             }
 
-            OnNodesUpdate.Invoke(node, TaskUpdateEvent.Update);
+            OnBehaviorAfterUpdate.Invoke(node, TaskUpdateEvent.Update);
         }
 
         public void CreateNode(INode node)
         {
+            OnBehaviorBeforeUpdate?.Invoke(TaskUpdateEvent.Create);
+
             if (rootTask == null)
             {
                 rootTask = (ITask)node;
@@ -197,38 +200,44 @@ namespace BehaviourGraph.Runtime
             }
 
             allNodes.Add(node);
-            OnNodesUpdate.Invoke(node, TaskUpdateEvent.Add);
+            OnBehaviorAfterUpdate.Invoke(node, TaskUpdateEvent.Create);
         }
 
         public void RemoveNode(INode node)
         {
+            OnBehaviorBeforeUpdate?.Invoke(TaskUpdateEvent.Remove);
+
             if (rootTask?.Id == node.Id)
                 rootTask = null;
 
             allNodes.Remove(node);
-            OnNodesUpdate.Invoke(node, TaskUpdateEvent.Remove);
+            OnBehaviorAfterUpdate.Invoke(node, TaskUpdateEvent.Remove);
         }
 
         public void AddChild(INode parent, INode child)
         {
+            OnBehaviorBeforeUpdate?.Invoke(TaskUpdateEvent.Update);
+
             if (parent is IParentTask parentTask)
             {
                 parentTask.AddChild(child);
                 child.ParentId = parentTask.Id;
             }
 
-            OnNodesUpdate.Invoke(parent, TaskUpdateEvent.Update);
+            OnBehaviorAfterUpdate.Invoke(parent, TaskUpdateEvent.Update);
         }
 
         public void RemoveChild(INode parent, INode child)
         {
+            OnBehaviorBeforeUpdate?.Invoke(TaskUpdateEvent.Update);
+
             if (parent is IParentTask parentTask)
             {
                 parentTask.RemoveChild(child);
                 child.ParentId = Guid.Empty;
             }
 
-            OnNodesUpdate.Invoke(parent, TaskUpdateEvent.Update);
+            OnBehaviorAfterUpdate.Invoke(parent, TaskUpdateEvent.Update);
         }
     }
 }

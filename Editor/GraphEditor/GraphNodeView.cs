@@ -63,7 +63,6 @@ namespace BehaviourGraph.Editor
         public IGraphView GraphView { get; set; }
         public Action Selected { get; set; }
 
-
         public INode Node
         {
             get => node;
@@ -74,6 +73,8 @@ namespace BehaviourGraph.Editor
         public override void SetPosition(Rect newPos)
         {
             base.SetPosition(newPos);
+
+            GraphView.RecordObjectUndo(Runtime.TaskUpdateEvent.Update);
 
             node.SetPosition(new Vector2(newPos.xMin, newPos.yMin));
         }

@@ -6,7 +6,7 @@ namespace BehaviourGraph.Runtime.Tasks
     public abstract class ParentTask : Task, IParentTask
     {
         [SerializeReference]
-        protected List<ITask> children;
+        protected List<ITask> children = new();
 
         public override List<ITask> GetChildren()
         {
