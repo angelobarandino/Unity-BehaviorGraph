@@ -6,6 +6,7 @@
         Replace,
         Decorate,
         Remove,
-        Update
+        Update,
+        CopyPaste
     }
 }

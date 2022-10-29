@@ -78,8 +78,15 @@ namespace BehaviourGraph.Editor
             {
                 case TaskUpdateEvent.Create:
                     CreateNodeView(node);
+                    ClearSelection();
                     AddToSelection(node);
                     break;
+
+                case TaskUpdateEvent.CopyPaste:
+                    CreateNodeView(node);
+                    AddToSelection(node);
+                    break;
+
                 case TaskUpdateEvent.Replace:
                     break;
                 case TaskUpdateEvent.Decorate:
@@ -326,7 +333,7 @@ namespace BehaviourGraph.Editor
 
                         var cloneNode = (INode)(node as ITask).Clone();
                         cloneNode.SetPosition(contextualMousePosition);
-                        activeBehaviour.DataSource.CreateNode(cloneNode);
+                        activeBehaviour.DataSource.CreateNode(cloneNode, isCopied: true);
                         lastNodePosition = node.GetPosition();
                     }
                 });

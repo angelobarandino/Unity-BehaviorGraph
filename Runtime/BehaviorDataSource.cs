@@ -189,10 +189,11 @@ namespace BehaviourGraph.Runtime
             OnBehaviorAfterUpdate.Invoke(node, TaskUpdateEvent.Update);
         }
 
-        public void CreateNode(INode node)
+        public void CreateNode(INode node, bool isCopied = false)
         {
-            OnBehaviorBeforeUpdate?.Invoke(TaskUpdateEvent.Create);
+            var updateEvent = isCopied ? TaskUpdateEvent.CopyPaste : TaskUpdateEvent.Create;
 
+            OnBehaviorBeforeUpdate?.Invoke(updateEvent);
             if (rootTask == null)
             {
                 rootTask = (ITask)node;
@@ -200,7 +201,7 @@ namespace BehaviourGraph.Runtime
             }
 
             allNodes.Add(node);
-            OnBehaviorAfterUpdate.Invoke(node, TaskUpdateEvent.Create);
+            OnBehaviorAfterUpdate.Invoke(node, updateEvent);
         }
 
         public void RemoveNode(INode node)
