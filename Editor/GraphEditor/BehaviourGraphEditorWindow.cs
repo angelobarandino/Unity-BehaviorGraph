@@ -88,14 +88,23 @@ namespace BehaviourGraph.Editor
             EditorApplication.playModeStateChanged += OnPlayModeStateChange;
         }
 
+        private void OnDisable()
+        {
+            EditorApplication.playModeStateChanged -= OnPlayModeStateChange;
+        }
+
         private void OnPlayModeStateChange(PlayModeStateChange state)
         {
             if (graphView == null) return;
 
             switch (state)
             {
+                case PlayModeStateChange.EnteredEditMode:
+                    OnSelectionChange();
+                    break;
+
                 case PlayModeStateChange.ExitingPlayMode:
-                    graphView.nodes.ForEach(node => (node as GraphNodeView).SetEditModeState());
+                    OnSelectionChange();
                     break;
             }
         }
@@ -104,7 +113,11 @@ namespace BehaviourGraph.Editor
         {
             if (Application.isPlaying && graphView != null)
             {
-                graphView.nodes.ForEach(node => (node as GraphNodeView).SetPlayModeState());
+                graphView.nodes.ForEach(node =>
+                {
+                    if (node is GraphNodeView graphNode)
+                        graphNode.UpdatePlaymodeStates();
+                });
             }
         }
     }

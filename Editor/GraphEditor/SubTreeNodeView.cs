@@ -20,7 +20,7 @@ namespace BehaviourGraph.Editor
             set 
             {
                 infoLabel ??= this.Q<Label>("info-label");
-                infoLabel.text = value;
+                infoLabel.text = value?.Replace("(Clone)", "");
                 infoLabel.style.display = string.IsNullOrEmpty(value)
                     ? DisplayStyle.None 
                     : DisplayStyle.Flex;

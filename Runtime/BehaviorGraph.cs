@@ -21,5 +21,9 @@ namespace BehaviourGraph.Runtime
 
         public IBehaviourOwner BehaviourOwner { get; set; }
 
+        public IBehaviour Clone()
+        {
+            return Instantiate(this);
+        }
     }
 }

@@ -18,7 +18,7 @@ namespace BehaviourGraph.Editor
             base.title = this.node.Name;
             viewDataKey = this.node.Id;
 
-            AddToClassList("editorMode");
+            SetEditorMode();
             UseNodePosition(node.GetPosition());
 
             Node.OnNodeUpdate -= OnNodeUpdate;
@@ -157,7 +157,7 @@ namespace BehaviourGraph.Editor
             get => bodyContent ??= this.Q<VisualElement>("body-content");
         }
 
-        public void SetEditModeState()
+        public void SetEditorMode()
         {
             isPlaymode = false;
             BodyContent.ClearClassList();
@@ -169,7 +169,7 @@ namespace BehaviourGraph.Editor
             Output?.SetState(NodeState.Ready, includeEdges: false);
         }
 
-        public void SetPlayModeState()
+        public void UpdatePlaymodeStates()
         {
             if (!isPlaymode)
             {
