@@ -220,27 +220,30 @@ namespace BehaviorGraph.Editor
                 (evt.target is GraphNodeView) ? DropdownMenuAction.Status.Normal : DropdownMenuAction.Status.Disabled);
             evt.menu.AppendSeparator();
 
-            if (evt.target is TaskNodeView nodeView)
+            if (evt.target is GraphNodeView nodeView)
             {
-                evt.menu.AppendAction("Set Start", a =>
+                if (nodeView is TaskNodeView taskNodeView)
                 {
-                    //check if there is an existing assigned root task and remove it
-                    if (activeBehaviour.DataSource.RootTask != null)
+                    evt.menu.AppendAction("Set Start", a =>
                     {
-                        if (GetElementByGuid(activeBehaviour.DataSource.RootTask.Id) is TaskNodeView taskNodeView)
+                        //check if there is an existing assigned root task and remove it
+                        if (activeBehaviour.DataSource.RootTask != null)
                         {
-                            taskNodeView.SetRootTask(false);
+                            if (GetElementByGuid(activeBehaviour.DataSource.RootTask.Id) is TaskNodeView taskNodeView)
+                            {
+                                taskNodeView.SetRootTask(false);
+                            }
                         }
-                    }
 
-                    //set the new RootTask
-                    activeBehaviour.DataSource.SetRootTask(nodeView.Node);
-                   
-                    //show 'START' label
-                    nodeView.SetRootTask(true);
-                });
+                        //set the new RootTask
+                        activeBehaviour.DataSource.SetRootTask(nodeView.Node);
 
-                evt.menu.AppendSeparator();
+                        //show 'START' label
+                        taskNodeView.SetRootTask(true);
+                    });
+                    
+                    evt.menu.AppendSeparator();
+                }
 
                 GraphContextualManager.DecorateMenu(evt, decoratorNode =>
                 {

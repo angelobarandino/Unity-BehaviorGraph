@@ -34,7 +34,7 @@ namespace BehaviorGraph.Runtime.Tasks
         private NodeState currentState;
         public NodeState State => currentState;
 
-        [SerializeField]
+        [SerializeField, HideInInspector]
         private bool isRootTask;
         public bool IsRootTask => isRootTask;
 
@@ -161,7 +161,6 @@ namespace BehaviorGraph.Runtime.Tasks
         {
             isRootTask = rootTask;
         }
-
         public object Clone()
         {
             return TaskUtility.CreateCopy(this);

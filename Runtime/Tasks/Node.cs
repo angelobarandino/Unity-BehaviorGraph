@@ -10,14 +10,14 @@ namespace BehaviorGraph.Runtime
             id = Guid.NewGuid();
         }
 
-        [SerializeField]
+        [SerializeField, HideInInspector]
         private SerializableGuid id;
         public SerializableGuid Id 
         {
             get => id;
         }
 
-        [SerializeField]
+        [SerializeField, HideInInspector]
         private SerializableGuid parentId;
         public SerializableGuid ParentId
         {
