@@ -13,6 +13,7 @@ using Action = BehaviorGraph.Runtime.Tasks.Action;
 
 namespace BehaviorGraph.Editor
 {
+
     public class BehaviorGraphView : GraphView, IGraphView
     {
         public new class UxmlFactory : UxmlFactory<BehaviorGraphView, GraphView.UxmlTraits> { }
@@ -35,6 +36,7 @@ namespace BehaviorGraph.Editor
             this.AddManipulator(new SelectionDragger());
             this.AddManipulator(new RectangleSelector());
             this.AddManipulator(new ClickSelector());
+            this.AddManipulator(new DragAndDropManipulator(CanDrop));
             this.AddStyleSheet("Assets/BehaviorGraph/Editor/Resources/StyleSheets/BehaviorTreeEditorStyle.uss");
 
             blackboardProvider = new BlackboardProvider(this);
@@ -51,6 +53,7 @@ namespace BehaviorGraph.Editor
             unserializeAndPaste -= HandleUnserializeAndPaste;
             unserializeAndPaste += HandleUnserializeAndPaste;
         }
+
 
         public void LoadBehaviorTree(IBehaviour behaviour)
         {
@@ -72,6 +75,7 @@ namespace BehaviorGraph.Editor
             activeBehaviour.DataSource.AllNodes.ForEach(node => CreateNodeView(node));
             activeBehaviour.DataSource.AllNodes.ForEach(node => CreateNodeEdges(node));
         }
+
 
         private void OnNodesUpdate(INode node, TaskUpdateEvent updateEvent)
         {
@@ -185,6 +189,16 @@ namespace BehaviorGraph.Editor
             }
 
             return graphViewChange;
+        }
+
+        private bool CanDrop(UnityEngine.Object obj)
+        {
+            if (obj is BehaviorSubTree subTree)
+            {
+                return (subTree as IBehaviour) != activeBehaviour;
+            }
+
+            return false;
         }
 
         private Vector2 GetMousePosition(ContextualMenuPopulateEvent evt)
@@ -422,6 +436,19 @@ namespace BehaviorGraph.Editor
             var name = $"{updateEvent} Node ({activeBehaviour.Name})";
             Undo.RegisterCompleteObjectUndo(GetAssetInstance(), name);
         }
+
+        public void OnObjectDropped(UnityEngine.Object droppedObject, Vector2 mousePosition)
+        {
+            var position = this.ChangeCoordinatesTo(this.contentContainer, mousePosition - new Vector2(10f, 50f));
+            
+            if (droppedObject is BehaviorSubTree behaviorSubTree)
+            {
+                var subTree = new SubTree();
+                subTree.SetPosition(position);
+                subTree.BehaviourSubTree = behaviorSubTree;
+                activeBehaviour.DataSource.CreateNode(subTree);
+            }
+        }
         #endregion
 
         #region Copy And Paste Method Callbacks
@@ -474,7 +501,6 @@ namespace BehaviorGraph.Editor
             }
         }
         #endregion
-
     }
 
     public class GraphContextualManager

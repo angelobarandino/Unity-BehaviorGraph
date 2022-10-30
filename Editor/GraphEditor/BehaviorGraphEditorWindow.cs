@@ -36,7 +36,7 @@ namespace BehaviorGraph.Editor
         public void CreateGUI()
         {
             // Each editor window contains a root VisualElement object
-            VisualElement root = rootVisualElement;
+            var root = rootVisualElement;
 
             // Import StyleSheet
             root.AddStyleSheet("Assets/BehaviorGraph/Editor/Resources/StyleSheets/BehaviorGraphEditorWindow.uss");

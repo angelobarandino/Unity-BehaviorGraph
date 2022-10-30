@@ -6,7 +6,7 @@
         </uie:Toolbar>
         <ui:VisualElement style="flex-grow: 1;">
             <BehaviorGraph.Editor.BehaviorGraphView focusable="true" name="graph-view" />
-            <ui:Label text="Label" display-tooltip-when-elided="true" name="graph-name" binding-path="m_Name" />
+            <ui:Label display-tooltip-when-elided="true" name="graph-name" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
