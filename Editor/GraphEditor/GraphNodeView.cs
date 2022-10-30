@@ -1,10 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using BehaviorGraph.Editor.Ports;
 using BehaviorGraph.Runtime;
 using BehaviorGraph.Runtime.Tasks;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static UnityEngine.EventSystems.StandaloneInputModule;
 using GVNode = UnityEditor.Experimental.GraphView.Node;
 
 namespace BehaviorGraph.Editor
@@ -120,6 +122,11 @@ namespace BehaviorGraph.Editor
             {
                 parentNode.SortChildren();
             }
+        }
+
+        public bool InHierarchy(GraphNodeView graphNodeView)
+        {
+            return Node.InHierarchy(graphNodeView.Node);
         }
 
         public Edge ConnectOutput(GraphNodeView nodeView)

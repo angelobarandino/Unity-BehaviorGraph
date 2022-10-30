@@ -27,6 +27,11 @@ namespace BehaviorGraph.Runtime
             return -1324198676 + guid.GetHashCode();
         }
 
+        public bool IsEmpty()
+        {
+            return guid == null || guid == Guid.Empty;
+        }
+
         public void OnAfterDeserialize()
         {
             try

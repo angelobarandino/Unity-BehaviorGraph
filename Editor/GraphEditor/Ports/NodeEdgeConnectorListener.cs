@@ -70,9 +70,9 @@ namespace BehaviorGraph.Editor.Ports
         {
             var graphView = currentEdge.panel.visualTree.Q<GraphView>("graph-view");
 
-            CheckIfDropAboveNode(graphView, node =>
+            CheckIfDropAboveNode(graphView, targetNode =>
             {
-                var newEdge = ConnectToDroppedNode(currentEdge, node);
+                var newEdge = ConnectToDroppedNode(currentEdge, targetNode);
                 if (newEdge != null)
                 {
                     this.edgesToCreate.Clear();
@@ -115,13 +115,23 @@ namespace BehaviorGraph.Editor.Ports
             }
         }
 
-        private Edge ConnectToDroppedNode(Edge edge, GraphNodeView droppedNode)
+        private Edge ConnectToDroppedNode(Edge edge, GraphNodeView targetNode)
         {
-            if (edge.output?.node is GraphNodeView draggedOutputNode)
-                return droppedNode.ConnectInput(draggedOutputNode);
+            if (edge.output?.node is GraphNodeView outputNode)
+            {
+                if (outputNode.InHierarchy(targetNode))
+                    return null;
 
-            if (edge.input?.node is GraphNodeView draggedInputNode)
-                return droppedNode.ConnectOutput(draggedInputNode);
+                return targetNode.ConnectInput(outputNode);
+            }
+
+            if (edge.input?.node is GraphNodeView inputNode)
+            {
+                if (targetNode.InHierarchy(inputNode))
+                    return null;
+
+                return targetNode.ConnectOutput(inputNode);
+            }
 
             return null;
         }

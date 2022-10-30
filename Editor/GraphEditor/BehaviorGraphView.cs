@@ -217,10 +217,46 @@ namespace BehaviorGraph.Editor
             AddToSelection(FindGraphNodeView(node.Id));
         }
 
+        private void ParentTraverse(INode node, Action<INode> callback)
+        {
+            if (node is IParentTask parentNode)
+            {
+                parentNode.GetChildren().ForEach(child => ParentTraverse(child, callback));
+            }
+        }
+
         #region GraphView Overriden Methods
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
         {
-            return ports.Where(endPort => endPort.direction != startPort.direction && endPort.node != startPort.node).ToList();
+            var compatiblePorts = new List<Port>();
+            this.ports.ForEach(endPort =>
+            {
+                if (endPort.direction == startPort.direction)
+                    return;
+
+                if (endPort.node.viewDataKey == startPort.node.viewDataKey)
+                    return;
+
+                compatiblePorts.Add(endPort);
+
+                if (startPort.direction == Direction.Input && endPort.node is GraphNodeView outputNode)
+                {
+                    if (outputNode.InHierarchy((startPort.node as GraphNodeView)))
+                    {
+                        compatiblePorts.Remove(endPort);
+                    }
+                }
+
+                if (startPort.direction == Direction.Output && endPort.node is GraphNodeView inputNode)
+                {
+                    if ((startPort.node as GraphNodeView).InHierarchy(inputNode))
+                    {
+                        compatiblePorts.Remove(endPort);
+                    }
+                }
+            });
+
+            return compatiblePorts;
         }
 
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
