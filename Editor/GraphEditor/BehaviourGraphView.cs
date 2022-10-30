@@ -5,10 +5,8 @@ using System.Reflection;
 using BehaviourGraph.Runtime;
 using BehaviourGraph.Runtime.Attributes;
 using BehaviourGraph.Runtime.Tasks;
-using CityBuilder.AI.Tasks.Actions;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
-using UnityEditor.TestTools.TestRunner.Api;
 using UnityEngine;
 using UnityEngine.UIElements;
 using Action = BehaviourGraph.Runtime.Tasks.Action;
@@ -197,11 +195,6 @@ namespace BehaviourGraph.Editor
         private void OnUndoRedoPerformed()
         {
             LoadBehaviorTree(activeBehaviour);
-        }
-
-        private GraphNodeView FindGraphNodeView(string guid)
-        {
-            return GetNodeByGuid(guid) as GraphNodeView;
         }
 
         private void AddToSelection(INode node)
@@ -397,6 +390,10 @@ namespace BehaviourGraph.Editor
         #endregion
 
         #region IGraphView Implemented Methods
+        public GraphNodeView FindGraphNodeView(string guid)
+        {
+            return GetNodeByGuid(guid) as GraphNodeView;
+        }
         public UnityEngine.Object GetAssetInstance()
         {
             var id = activeBehaviour.GetInstanceID();

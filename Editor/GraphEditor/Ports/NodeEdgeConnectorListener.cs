@@ -70,7 +70,7 @@ namespace BehaviourGraph.Editor.Ports
         {
             var graphView = currentEdge.panel.visualTree.Q<GraphView>("graph-view");
 
-            CheckIfDropAboveNode(position, graphView, node =>
+            CheckIfDropAboveNode(graphView, node =>
             {
                 var newEdge = ConnectToDroppedNode(currentEdge, node);
                 if (newEdge != null)
@@ -98,9 +98,9 @@ namespace BehaviourGraph.Editor.Ports
             //SearchWindow.Open(new SearchWindowContext(GUIUtility.GUIToScreenPoint(Event.current.mousePosition)), provider);
         }
 
-        private void CheckIfDropAboveNode(Vector2 position, GraphView graphView, System.Action<GraphNodeView> callback)
+        private void CheckIfDropAboveNode(GraphView graphView, System.Action<GraphNodeView> callback)
         {
-            var dropPos = graphView.viewTransform.matrix.inverse.MultiplyPoint(position - new Vector2(10, 50));
+            var dropPos = graphView.ChangeCoordinatesTo(graphView.contentViewContainer, Event.current.mousePosition - new Vector2(10f, 50f));
 
             foreach (var element in graphView.graphElements)
             {

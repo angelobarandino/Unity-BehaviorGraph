@@ -13,6 +13,9 @@ namespace BehaviourGraph.Editor
             AddToClassList("taskInspector");
             this.LoadVisualTreeAsset("Assets/BehaviourGraph/Editor/Resources/Uxml/NodeInspector.uxml");
 
+            capabilities |= Capabilities.Movable;
+            this.AddManipulator(new Dragger { clampToParentEdges = true });
+
             NodeGUI.onGUIHandler = () =>
             {
                 if (!scriptableObject) return;

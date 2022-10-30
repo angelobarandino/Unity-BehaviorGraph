@@ -8,8 +8,11 @@ namespace BehaviourGraph.Editor
     public interface IGraphView
     {
         IBehaviourOwner BehaviorOwner { get; }
+        
         UnityEngine.Object GetAssetInstance();
         void SetBehaviorAssetDirty();
+
+        GraphNodeView FindGraphNodeView(string guid);
 
         void Add(VisualElement element);
         void AddElement(GraphElement element);

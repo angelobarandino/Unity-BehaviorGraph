@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using BehaviourGraph.Editor.Ports;
 using BehaviourGraph.Runtime.Tasks;
 using UnityEditor.Experimental.GraphView;
@@ -80,7 +79,24 @@ namespace BehaviourGraph.Editor
 
             GraphView.RecordObjectUndo(Runtime.TaskUpdateEvent.Update);
 
-            node.SetPosition(new Vector2(newPos.xMin, newPos.yMin));
+            var newPosition = new Vector2(newPos.xMin, newPos.yMin);
+            var positionDelta = node.GetPosition() - newPosition;
+            node.SetPosition(newPosition);
+
+            if (node is IParentTask parentNode)
+            {
+                var children = parentNode.GetChildren();
+                foreach (var child in children)
+                {
+                    var nodeView = GraphView.FindGraphNodeView(child.Id);
+                    var currentPosition = nodeView.GetPosition();
+                    currentPosition.xMin -= positionDelta.x;
+                    currentPosition.yMin -= positionDelta.y;
+
+                    nodeView.capabilities &= ~Capabilities.Snappable;
+                    nodeView.SetPosition(currentPosition);
+                }
+            }
         }
 
         private void UseNodePosition(Vector2 position)
@@ -92,6 +108,7 @@ namespace BehaviourGraph.Editor
         public override void OnSelected()
         {
             base.OnSelected();
+            capabilities |= Capabilities.Snappable;
             Selected?.Invoke();
         }
 
