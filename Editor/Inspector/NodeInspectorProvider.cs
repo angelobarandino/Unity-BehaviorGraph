@@ -1,8 +1,8 @@
 ﻿
 using System.Collections.Generic;
-using System.Linq;
+using BehaviorGraph.Runtime;
 
-namespace BehaviourGraph.Editor
+namespace BehaviorGraph.Editor
 {
     public class NodeInspectorProvider
     {

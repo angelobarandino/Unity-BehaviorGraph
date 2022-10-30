@@ -1,7 +1,7 @@
-﻿using BehaviourGraph.Runtime.Tasks;
+﻿using BehaviorGraph.Runtime.Tasks;
 using UnityEngine;
 
-namespace BehaviourGraph.Runtime
+namespace BehaviorGraph.Runtime
 {
 
     [RequireComponent(typeof(BlackboardVariable))]

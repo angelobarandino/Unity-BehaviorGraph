@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using BehaviorGraph.Runtime;
 using UnityEditor;
 using UnityEngine;
 
-namespace BehaviourGraph.Editor
+namespace BehaviorGraph.Editor
 {
     public static class BlackboardContextManager
     {

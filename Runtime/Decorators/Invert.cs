@@ -1,4 +1,4 @@
-﻿namespace BehaviourGraph.Runtime.Tasks.Decorators
+﻿namespace BehaviorGraph.Runtime.Tasks.Decorators
 {
     public class Invert : Decorator
     {

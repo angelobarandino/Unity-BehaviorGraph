@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace BehaviourGraph.Runtime.Tasks
+namespace BehaviorGraph.Runtime.Tasks
 {
     [Serializable]
     public class SubTree : Task, ISubTree

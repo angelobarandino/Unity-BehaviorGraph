@@ -1,6 +1,6 @@
-﻿using BehaviourGraph.Runtime.Attributes;
+﻿using BehaviorGraph.Runtime.Attributes;
 
-namespace BehaviourGraph.Runtime.Tasks.Actions
+namespace BehaviorGraph.Runtime.Tasks.Actions
 {
     public abstract class SetVariable<T> : Action
     {

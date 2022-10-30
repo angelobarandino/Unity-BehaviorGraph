@@ -1,7 +1,7 @@
-﻿using BehaviourGraph.Runtime.Attributes;
+﻿using BehaviorGraph.Runtime.Attributes;
 using UnityEngine;
 
-namespace BehaviourGraph.Runtime.Tasks.Decorators
+namespace BehaviorGraph.Runtime.Tasks.Decorators
 {
     public class Repeater : Decorator
     {

@@ -1,7 +1,7 @@
 ﻿//using System.Collections.Generic;
 //using System.Linq;
-//using BehaviourGraph.Runtime;
-//using BehaviourGraph.Runtime.Tasks;
+//using BehaviorGraph.Runtime;
+//using BehaviorGraph.Runtime.Tasks;
 //using UnityEditor;
 //using UnityEditor.Experimental.GraphView;
 //using UnityEditor.SceneManagement;
@@ -9,7 +9,7 @@
 //using UnityEngine.SceneManagement;
 //using UnityEngine.UIElements;
 
-//namespace BehaviourGraph.Editor
+//namespace BehaviorGraph.Editor
 //{
 
 
@@ -31,7 +31,7 @@
 //            this.AddManipulator(new RectangleSelector());
 //            this.AddManipulator(new ClickSelector());
 
-//            this.AddStyleSheet("Assets/BehaviourGraph/Editor/Resources/StyleSheets/BehaviourTreeEditorStyle.uss");
+//            this.AddStyleSheet("Assets/BehaviorGraph/Editor/Resources/StyleSheets/BehaviourTreeEditorStyle.uss");
 
 //            LoadViewTransform();
 

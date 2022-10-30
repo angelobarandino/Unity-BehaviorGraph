@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace BehaviourGraph
+namespace BehaviorGraph.Runtime
 {
     public interface IBlackboard
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace BehaviourGraph
+namespace BehaviorGraph.Runtime
 {
     [Serializable]
     public class Vector2Variable : BBVariable<Vector2>

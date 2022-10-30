@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEditor;
 
-namespace BehaviourGraph.Editor
+namespace BehaviorGraph.Editor
 {
     public static class GraphViewUtility
     {

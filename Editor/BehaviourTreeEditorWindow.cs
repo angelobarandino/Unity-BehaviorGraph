@@ -1,8 +1,8 @@
-//using BehaviourGraph.Runtime;
+//using BehaviorGraph.Runtime;
 //using UnityEditor;
 //using UnityEngine;
 
-//namespace BehaviourGraph.Editor
+//namespace BehaviorGraph.Editor
 //{
 //    public class BehaviourTreeEditorWindow : EditorWindow
 //    {

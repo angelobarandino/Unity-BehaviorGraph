@@ -1,10 +1,10 @@
 ﻿//using System.Collections.Generic;
-//using BehaviourGraph.Runtime.Tasks;
+//using BehaviorGraph.Runtime.Tasks;
 //using UnityEditor.Experimental.GraphView;
 //using UnityEngine;
 //using static UnityEditor.Experimental.GraphView.Port;
 
-//namespace BehaviourGraph.Editor
+//namespace BehaviorGraph.Editor
 //{
 //    public class EdgeConnectorListener : IEdgeConnectorListener
 //    {

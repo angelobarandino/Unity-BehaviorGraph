@@ -1,4 +1,4 @@
-﻿namespace BehaviourGraph.Runtime
+﻿namespace BehaviorGraph.Runtime
 {
     public enum TaskUpdateEvent
     {

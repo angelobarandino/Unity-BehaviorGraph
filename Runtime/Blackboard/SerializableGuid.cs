@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace BehaviourGraph.Runtime
+namespace BehaviorGraph.Runtime
 {
     [Serializable]
     public struct SerializableGuid : ISerializationCallbackReceiver

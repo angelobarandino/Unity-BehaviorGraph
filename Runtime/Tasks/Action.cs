@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BehaviourGraph.Runtime.Tasks
+namespace BehaviorGraph.Runtime.Tasks
 {
     [Serializable]
     public abstract class Action : Task { }

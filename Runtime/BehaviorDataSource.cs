@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using BehaviourGraph.Runtime.Tasks;
+using BehaviorGraph.Runtime.Tasks;
 using UnityEngine;
 
-namespace BehaviourGraph.Runtime
+namespace BehaviorGraph.Runtime
 {
     [Serializable]
     public class BehaviorDataSource
@@ -65,6 +65,14 @@ namespace BehaviourGraph.Runtime
 
             if (rootTask?.Id == node.Id)
                 rootTask = null;
+
+            if (node is IParentTask parentNode)
+            {
+                parentNode.GetChildren().ForEach(child =>
+                {
+                    child.ParentId = Guid.Empty;
+                });
+            }
 
             allNodes.Remove(node);
             OnBehaviorAfterUpdate?.Invoke(node, TaskUpdateEvent.Remove);

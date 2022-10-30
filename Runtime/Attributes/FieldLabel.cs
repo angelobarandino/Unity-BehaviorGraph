@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BehaviourGraph.Runtime.Attributes
+namespace BehaviorGraph.Runtime.Attributes
 {
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = false)]
     public class FieldLabel : Attribute

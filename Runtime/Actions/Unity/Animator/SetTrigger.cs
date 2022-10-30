@@ -1,7 +1,7 @@
-﻿using BehaviourGraph.Runtime.Attributes;
+﻿using BehaviorGraph.Runtime.Attributes;
 using UnityEngine;
 
-namespace BehaviourGraph.Runtime.Tasks.Actions.UnityAnimator
+namespace BehaviorGraph.Runtime.Tasks.Actions.UnityAnimator
 {
     [TaskCategory("Unity/Animator")]
     public class SetTrigger : AnimatorAction

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace BehaviourGraph.Editor
+namespace BehaviorGraph.Editor
 {
     public static class VisualElementExtensions
     {

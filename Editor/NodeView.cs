@@ -1,15 +1,15 @@
 ﻿//using System;
 //using System.Collections.Generic;
 //using System.Linq;
-//using BehaviourGraph.Runtime.Tasks;
+//using BehaviorGraph.Runtime.Tasks;
 //using UnityEditor.Experimental.GraphView;
 //using UnityEngine;
 //using UnityEngine.UIElements;
-//using static BehaviourGraph.Editor.TaskPort;
+//using static BehaviorGraph.Editor.TaskPort;
 //using NodeGraphView = UnityEditor.Experimental.GraphView.Node;
-//using TaskAction = BehaviourGraph.Runtime.Tasks.Action;
+//using TaskAction = BehaviorGraph.Runtime.Tasks.Action;
 
-//namespace BehaviourGraph.Editor
+//namespace BehaviorGraph.Editor
 //{
 //    public class NodeView : NodeGraphView
 //    {
@@ -28,7 +28,7 @@
 //        public bool IsStartNode { get; private set; }
 
 //        private readonly IGraphView graphView;
-//        public NodeView(Task task, IGraphView graphView) : base("Assets/BehaviourGraph/Editor/Resources/Uxml/NodeView.uxml")
+//        public NodeView(Task task, IGraphView graphView) : base("Assets/BehaviorGraph/Editor/Resources/Uxml/NodeView.uxml")
 //        {
 //            this.graphView = graphView;
 

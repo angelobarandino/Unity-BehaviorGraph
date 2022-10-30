@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using static UnityEditor.Experimental.GraphView.Port;
 
-namespace BehaviourGraph.Editor.Ports
+namespace BehaviorGraph.Editor.Ports
 {
     public class NodeEdgeConnectorListener : IEdgeConnectorListener
     {

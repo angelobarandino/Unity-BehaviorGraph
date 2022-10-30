@@ -1,5 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <Style src="project://database/Assets/BehaviourGraph/Editor/Resources/StyleSheets/Blackboard.uss?fileID=7433441132597879392&amp;guid=1f641f91bf1d10247a0c75794b80449d&amp;type=3#Blackboard" />
+    <Style src="project://database/Assets/BehaviorGraph/Editor/Resources/StyleSheets/Blackboard.uss?fileID=7433441132597879392&amp;guid=1f641f91bf1d10247a0c75794b80449d&amp;type=3#Blackboard" />
     <ui:VisualElement name="container">
         <ui:VisualElement name="header">
             <ui:Label tabindex="-1" text="Blackboard Variables" display-tooltip-when-elided="true" name="title-label" />

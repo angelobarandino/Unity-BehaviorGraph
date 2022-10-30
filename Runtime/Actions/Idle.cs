@@ -1,4 +1,4 @@
-﻿namespace BehaviourGraph.Runtime.Tasks.Actions
+﻿namespace BehaviorGraph.Runtime.Tasks.Actions
 {
     public class Idle : Action
     {

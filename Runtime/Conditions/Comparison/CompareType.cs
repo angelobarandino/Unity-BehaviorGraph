@@ -1,4 +1,4 @@
-﻿namespace BehaviourGraph.Runtime.Tasks.Conditions
+﻿namespace BehaviorGraph.Runtime.Tasks.Conditions
 {
     public enum CompareType
     {

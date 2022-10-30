@@ -1,4 +1,4 @@
-﻿namespace BehaviourGraph
+﻿namespace BehaviorGraph.Runtime
 {
     public class GenericVariable<T> : BBVariable<T>
     {

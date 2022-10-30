@@ -1,5 +1,5 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
-    <Style src="project://database/Assets/BehaviourGraph/Editor/Resources/StyleSheets/NodeView.uss?fileID=7433441132597879392&amp;guid=c5a0839497998e2419b8630786a979a6&amp;type=3#NodeView" />
+    <Style src="project://database/Assets/BehaviorGraph/Editor/Resources/StyleSheets/NodeView.uss?fileID=7433441132597879392&amp;guid=c5a0839497998e2419b8630786a979a6&amp;type=3#NodeView" />
     <ui:VisualElement name="container" picking-mode="Ignore">
         <ui:VisualElement name="top">
             <ui:VisualElement name="input-container" class="portWrapper">
@@ -10,7 +10,7 @@
             <ui:VisualElement name="body-content">
                 <ui:Label tabindex="-1" text="START" display-tooltip-when-elided="true" name="start-label" />
                 <ui:VisualElement style="align-items: center; margin-top: 5px; margin-bottom: 10px;">
-                    <BehaviourGraph.Editor.NodeIcon name="node-icon" />
+                    <BehaviorGraph.Editor.NodeIcon name="node-icon" />
                 </ui:VisualElement>
                 <ui:VisualElement style="background-color: rgb(41, 41, 41); border-top-left-radius: 6px; border-bottom-left-radius: 6px; border-top-right-radius: 6px; border-bottom-right-radius: 6px; padding-left: 7px; padding-right: 7px; padding-top: 4px; padding-bottom: 4px;">
                     <ui:Label name="title-label" text="Task" class="unity-text-element unity-label" />

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BehaviourGraph.Runtime.Attributes
+namespace BehaviorGraph.Runtime.Attributes
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
     public class TaskCategory : Attribute

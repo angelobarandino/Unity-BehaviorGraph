@@ -1,7 +1,7 @@
-﻿using BehaviourGraph.Runtime.Attributes;
+﻿using BehaviorGraph.Runtime.Attributes;
 using UnityEngine;
 
-namespace BehaviourGraph.Runtime.Tasks.Actions.UnityVector3
+namespace BehaviorGraph.Runtime.Tasks.Actions.UnityVector3
 {
     [TaskCategory("Unity/Vector3")]
     public class MoveTowards : Action

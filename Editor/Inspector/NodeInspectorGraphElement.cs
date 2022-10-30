@@ -1,8 +1,9 @@
-﻿using UnityEditor.Experimental.GraphView;
+﻿using BehaviorGraph.Runtime;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace BehaviourGraph.Editor
+namespace BehaviorGraph.Editor
 {
     public class NodeInspectorGraphElement : GraphElement
     {
@@ -11,7 +12,7 @@ namespace BehaviourGraph.Editor
         {
             AddToClassList("hidden");
             AddToClassList("taskInspector");
-            this.LoadVisualTreeAsset("Assets/BehaviourGraph/Editor/Resources/Uxml/NodeInspector.uxml");
+            this.LoadVisualTreeAsset("Assets/BehaviorGraph/Editor/Resources/Uxml/NodeInspector.uxml");
 
             capabilities |= Capabilities.Movable;
             this.AddManipulator(new Dragger { clampToParentEdges = true });

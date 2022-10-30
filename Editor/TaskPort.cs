@@ -1,7 +1,7 @@
 ﻿//using UnityEditor.Experimental.GraphView;
 //using UnityEngine.UIElements;
 
-//namespace BehaviourGraph.Editor
+//namespace BehaviorGraph.Editor
 //{
 //    public class TaskPort : Port
 //    {

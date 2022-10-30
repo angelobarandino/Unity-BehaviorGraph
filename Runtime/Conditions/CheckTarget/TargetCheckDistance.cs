@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace BehaviourGraph.Runtime.Tasks.Conditions
+namespace BehaviorGraph.Runtime.Tasks.Conditions
 {
 
     public class TargetCheckDistance : Condition

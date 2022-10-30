@@ -1,7 +1,7 @@
-﻿using BehaviourGraph.Runtime.Attributes;
+﻿using BehaviorGraph.Runtime.Attributes;
 using UnityEngine;
 
-namespace BehaviourGraph.Runtime.Tasks.Actions
+namespace BehaviorGraph.Runtime.Tasks.Actions
 {
     [TaskCategory("Targets")]
     public class MoveTowardsTarget : Action

@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using BehaviorGraph.Runtime;
+using UnityEngine;
 
-namespace BehaviourGraph.Editor
+namespace BehaviorGraph.Editor
 {
     public class NodeInspectorSO : ScriptableObject
     {

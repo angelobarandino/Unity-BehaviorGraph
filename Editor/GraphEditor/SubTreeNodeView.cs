@@ -1,13 +1,9 @@
-﻿using BehaviourGraph.Editor.Ports;
-using BehaviourGraph.Runtime;
-using BehaviourGraph.Runtime.Tasks;
-using UnityEditor;
+﻿using BehaviorGraph.Editor.Ports;
+using BehaviorGraph.Runtime;
 using UnityEditor.Experimental.GraphView;
-using UnityEditor.VersionControl;
-using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace BehaviourGraph.Editor
+namespace BehaviorGraph.Editor
 {
     public class SubTreeNodeView : GraphNodeView
     {
@@ -27,7 +23,7 @@ namespace BehaviourGraph.Editor
             }
         }
 
-        public SubTreeNodeView(INode node) : base(node, "Assets/BehaviourGraph/Editor/Resources/Uxml/SubTreeNodeView.uxml")
+        public SubTreeNodeView(INode node) : base(node, "Assets/BehaviorGraph/Editor/Resources/Uxml/SubTreeNodeView.uxml")
         {
             createNewButton = this.Q<Button>("create-new-button");
             createNewButton.clickable.clicked -= CreateNewClicked;

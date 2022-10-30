@@ -1,9 +1,9 @@
 ﻿using System.Collections;
-using BehaviourGraph.Runtime.Attributes;
+using BehaviorGraph.Runtime.Attributes;
 using CityBuilder.AI.Tasks;
 using UnityEngine;
 
-namespace BehaviourGraph.Runtime.Tasks.Actions.UnityNavMeshAgent
+namespace BehaviorGraph.Runtime.Tasks.Actions.UnityNavMeshAgent
 {
 
     [TaskCategory("Unity/NavMeshAgent")]

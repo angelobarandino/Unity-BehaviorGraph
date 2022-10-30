@@ -1,6 +1,6 @@
 ﻿using UnityEditor;
 
-namespace BehaviourGraph.Editor
+namespace BehaviorGraph.Editor
 {
     [CustomEditor(typeof(NodeInspectorSO))]
     public class NodeInspectorSOEditor : UnityEditor.Editor

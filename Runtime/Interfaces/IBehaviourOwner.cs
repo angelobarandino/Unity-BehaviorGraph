@@ -1,8 +1,8 @@
 ﻿using System.Collections;
-using BehaviourGraph.Runtime;
+using BehaviorGraph.Runtime;
 using UnityEngine;
 
-namespace BehaviourGraph
+namespace BehaviorGraph.Runtime
 {
     public interface IBehaviourOwner
     {

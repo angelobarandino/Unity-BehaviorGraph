@@ -1,4 +1,4 @@
-﻿namespace BehaviourGraph.Runtime.Tasks
+﻿namespace BehaviorGraph.Runtime.Tasks
 {
     public abstract class Decorator : ParentTask
     {

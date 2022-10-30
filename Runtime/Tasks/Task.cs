@@ -1,11 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using BehaviourGraph.Runtime.Utilities;
-using Unity.VisualScripting;
+using BehaviorGraph.Runtime.Utilities;
 using UnityEngine;
 
-namespace BehaviourGraph.Runtime.Tasks
+namespace BehaviorGraph.Runtime.Tasks
 {
     [Serializable]
     public abstract class Task : Node, ITask
@@ -16,10 +15,9 @@ namespace BehaviourGraph.Runtime.Tasks
             get => owner;
         }
 
-        private IBlackboard blackboard;
         public IBlackboard Blackboard
         {
-            get => blackboard;
+            get => owner.Blackboard;
         }
 
         private GameObject gameObject;
@@ -36,8 +34,7 @@ namespace BehaviourGraph.Runtime.Tasks
         private NodeState currentState;
         public NodeState State => currentState;
 
-
-        [SerializeField, HideInInspector]
+        [SerializeField]
         private bool isRootTask;
         public bool IsRootTask => isRootTask;
 

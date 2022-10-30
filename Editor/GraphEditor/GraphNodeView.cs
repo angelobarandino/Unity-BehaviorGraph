@@ -1,13 +1,15 @@
 ﻿using System.Linq;
-using BehaviourGraph.Editor.Ports;
-using BehaviourGraph.Runtime.Tasks;
+using BehaviorGraph.Editor.Ports;
+using BehaviorGraph.Runtime;
+using BehaviorGraph.Runtime.Tasks;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
+using GVNode = UnityEditor.Experimental.GraphView.Node;
 
-namespace BehaviourGraph.Editor
+namespace BehaviorGraph.Editor
 {
-    public abstract class GraphNodeView : Node
+    public abstract class GraphNodeView : GVNode
     {
         private bool isPlaymode;
         private readonly INode node;

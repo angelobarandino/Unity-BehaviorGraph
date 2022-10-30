@@ -1,8 +1,8 @@
-﻿using BehaviourGraph.Runtime.Attributes;
+﻿using BehaviorGraph.Runtime.Attributes;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace BehaviourGraph.Runtime.Tasks.Actions.UnityNavMeshAgent
+namespace BehaviorGraph.Runtime.Tasks.Actions.UnityNavMeshAgent
 {
     [TaskCategory("Unity/NavMeshAgent")]
     public class SetIsStopped : Action

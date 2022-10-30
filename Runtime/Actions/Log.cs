@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace BehaviourGraph.Runtime.Tasks.Actions
+namespace BehaviorGraph.Runtime.Tasks.Actions
 {
     public class Log : Action
     {

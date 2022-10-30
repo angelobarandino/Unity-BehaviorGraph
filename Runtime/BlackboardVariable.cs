@@ -3,10 +3,10 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
-namespace BehaviourGraph
+namespace BehaviorGraph.Runtime
 {
     [DisallowMultipleComponent]
-    [AddComponentMenu("Behaviour Graph/Blackboard Variable")]
+    [AddComponentMenu("Behavior Graph/Blackboard Variable")]
     public class BlackboardVariable : MonoBehaviour, IBlackboard
     {
         public enum VariableScope

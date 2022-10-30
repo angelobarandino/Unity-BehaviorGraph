@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
+using BehaviorGraph.Runtime;
 using UnityEngine;
 
-namespace BehaviourGraph.Editor
+namespace BehaviorGraph.Editor
 {
     public class BlackboardViewSO : ScriptableObject
     {

@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using BehaviourGraph.Runtime.Attributes;
-using BehaviourGraph.Runtime.Tasks;
+using BehaviorGraph.Runtime.Attributes;
+using BehaviorGraph.Runtime.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 
-namespace BehaviourGraph.Runtime.Utilities
+namespace BehaviorGraph.Runtime.Utilities
 {
     public static class TaskUtility
     {

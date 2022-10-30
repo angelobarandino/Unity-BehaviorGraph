@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace BehaviourGraph.Runtime.Tasks
+namespace BehaviorGraph.Runtime.Tasks
 {
     public abstract class ParentTask : Task, IParentTask
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace BehaviourGraph.Runtime
+namespace BehaviorGraph.Runtime
 {
     public abstract class Node : INode
     {
@@ -10,14 +10,14 @@ namespace BehaviourGraph.Runtime
             id = Guid.NewGuid();
         }
 
-        [SerializeField, HideInInspector]
+        [SerializeField]
         private SerializableGuid id;
         public SerializableGuid Id 
         {
             get => id;
         }
 
-        [SerializeField, HideInInspector]
+        [SerializeField]
         private SerializableGuid parentId;
         public SerializableGuid ParentId
         {

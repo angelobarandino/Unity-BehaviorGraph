@@ -1,6 +1,6 @@
 ﻿//using UnityEditor.Experimental.GraphView;
 
-//namespace BehaviourGraph.Editor
+//namespace BehaviorGraph.Editor
 //{
 //    public static class PortExtensions
 //    {

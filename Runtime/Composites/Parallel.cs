@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace BehaviourGraph.Runtime.Tasks.Composites
+namespace BehaviorGraph.Runtime.Tasks.Composites
 {
     public class Parallel : Composite
     {

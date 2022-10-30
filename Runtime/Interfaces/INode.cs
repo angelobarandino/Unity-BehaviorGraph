@@ -1,7 +1,6 @@
-﻿using BehaviourGraph.Runtime;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace BehaviourGraph
+namespace BehaviorGraph.Runtime
 {
     public interface INode
     {

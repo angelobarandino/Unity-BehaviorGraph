@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using BehaviourGraph.Runtime;
+using BehaviorGraph.Runtime;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
-namespace BehaviourGraph.Editor
+namespace BehaviorGraph.Editor
 {
     public interface IGraphView
     {

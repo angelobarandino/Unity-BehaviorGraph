@@ -1,10 +1,10 @@
-﻿using BehaviourGraph.Editor.Ports;
-using BehaviourGraph.Runtime;
-using BehaviourGraph.Runtime.Tasks;
+﻿using BehaviorGraph.Editor.Ports;
+using BehaviorGraph.Runtime;
+using BehaviorGraph.Runtime.Tasks;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
-namespace BehaviourGraph.Editor
+namespace BehaviorGraph.Editor
 {
     public class TaskNodeView : GraphNodeView
     {
@@ -18,7 +18,7 @@ namespace BehaviourGraph.Editor
             }
         }
 
-        public TaskNodeView(INode node) : base(node, "Assets/BehaviourGraph/Editor/Resources/Uxml/TaskNodeView.uxml")
+        public TaskNodeView(INode node) : base(node, "Assets/BehaviorGraph/Editor/Resources/Uxml/TaskNodeView.uxml")
         {
             SetRootTask((node as ITask).IsRootTask);
 

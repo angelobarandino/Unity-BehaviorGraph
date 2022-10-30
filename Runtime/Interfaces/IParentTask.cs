@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using BehaviourGraph.Runtime;
 
-namespace BehaviourGraph
+namespace BehaviorGraph.Runtime
 {
     public interface IParentTask : INode
     {

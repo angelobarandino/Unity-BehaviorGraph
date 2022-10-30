@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BehaviourGraph
+namespace BehaviorGraph.Runtime
 {
     public interface IBBVariable : ICloneable
     {

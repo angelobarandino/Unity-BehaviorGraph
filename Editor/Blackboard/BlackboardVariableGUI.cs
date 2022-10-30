@@ -1,9 +1,10 @@
-﻿using Unity.VisualScripting;
+﻿using BehaviorGraph.Runtime;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEditorInternal;
 using UnityEngine;
 
-namespace BehaviourGraph.Editor
+namespace BehaviorGraph.Editor
 {
     public class BlackboardVariableGUI
     {
@@ -17,7 +18,7 @@ namespace BehaviourGraph.Editor
             this.blackboard = blackboard;
             this.serializedObject = serializedObject;
 
-            this.settingsIcon = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/BehaviourGraph/Editor/Resources/Images/cog.png");
+            this.settingsIcon = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/BehaviorGraph/Editor/Resources/Images/cog.png");
 
             list = new ReorderableList(allVariablesProperty.serializedObject, allVariablesProperty, true, true, false, false);
 
@@ -33,6 +34,7 @@ namespace BehaviourGraph.Editor
             {
                 var variableProperty = list.serializedProperty.GetArrayElementAtIndex(index);
                 var bindDataProperty = variableProperty.FindPropertyRelative("bindData");
+                if (bindDataProperty == null) return;
 
                 rect.y += 2f;
                 rect.height = EditorGUIUtility.singleLineHeight;
@@ -62,7 +64,10 @@ namespace BehaviourGraph.Editor
         private void DrawVariableNameField(Rect nameRect, SerializedProperty variableProperty)
         {
             var nameProperty = variableProperty.FindPropertyRelative("name");
+            if (nameProperty == null) return;
+
             var invalidProperty = variableProperty.FindPropertyRelative("invalid");
+            if (invalidProperty == null) return;
 
             var nameStyle = new GUIStyle(GUI.skin.textField)
             {

@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace BehaviourGraph.Runtime.Tasks.Composites
+namespace BehaviorGraph.Runtime.Tasks.Composites
 {
     public class Selector : Composite
     {

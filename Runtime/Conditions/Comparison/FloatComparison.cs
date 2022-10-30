@@ -1,7 +1,7 @@
-﻿using BehaviourGraph.Runtime.Attributes;
+﻿using BehaviorGraph.Runtime.Attributes;
 using UnityEngine;
 
-namespace BehaviourGraph.Runtime.Tasks.Conditions
+namespace BehaviorGraph.Runtime.Tasks.Conditions
 {
     [TaskCategory("Comparison")]
     public class FloatComparison : Condition

@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 
-namespace BehaviourGraph.Editor
+namespace BehaviorGraph.Editor
 {
 
     public class BlackboardView : GraphElement
@@ -36,8 +36,8 @@ namespace BehaviourGraph.Editor
 
         public BlackboardView()
         {
-            this.LoadVisualTreeAsset("Assets/BehaviourGraph/Editor/Resources/Uxml/Blackboard.uxml");
-            this.AddStyleSheet("Assets/BehaviourGraph/Editor/Resources/StyleSheets/Blackboard.uss");
+            this.LoadVisualTreeAsset("Assets/BehaviorGraph/Editor/Resources/Uxml/Blackboard.uxml");
+            this.AddStyleSheet("Assets/BehaviorGraph/Editor/Resources/StyleSheets/Blackboard.uss");
             AddToClassList("blackboard");
 
             capabilities |= Capabilities.Movable;

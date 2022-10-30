@@ -1,6 +1,6 @@
 ﻿using UnityEditor;
 
-namespace BehaviourGraph.Editor
+namespace BehaviorGraph.Editor
 {
     [CustomEditor(typeof(BlackboardViewSO))]
     public class BlackboardVariableGraphEditor : UnityEditor.Editor

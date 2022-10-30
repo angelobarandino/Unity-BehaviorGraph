@@ -1,9 +1,10 @@
 ﻿using System;
+using BehaviorGraph.Runtime;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-namespace BehaviourGraph.Editor
+namespace BehaviorGraph.Editor
 {
     [CustomPropertyDrawer(typeof(BBVariable), true)]
     public class BBVariablePropertyDrawer : PropertyDrawer
@@ -15,7 +16,7 @@ namespace BehaviourGraph.Editor
             {
                 if (activeImage == null)
                 {
-                    activeImage = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/BehaviourGraph/Editor/Resources/Images/round.png");
+                    activeImage = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/BehaviorGraph/Editor/Resources/Images/round.png");
                 }
 
                 return activeImage;
@@ -30,7 +31,7 @@ namespace BehaviourGraph.Editor
             {
                 if (inActiveImage == null)
                 {
-                    inActiveImage = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/BehaviourGraph/Editor/Resources/Images/round-inactive.png");
+                    inActiveImage = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/BehaviorGraph/Editor/Resources/Images/round-inactive.png");
                 }
 
                 return inActiveImage;

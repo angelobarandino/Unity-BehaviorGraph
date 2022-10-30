@@ -1,11 +1,11 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="True">
-    <Style src="project://database/Assets/BehaviourGraph/Editor/Resources/StyleSheets/BehaviourGraphEditorWindow.uss?fileID=7433441132597879392&amp;guid=56134aacf69462149b9516d894279fef&amp;type=3#BehaviourGraphEditorWindow" />
+    <Style src="project://database/Assets/BehaviorGraph/Editor/Resources/StyleSheets/BehaviorGraphEditorWindow.uss?fileID=7433441132597879392&amp;guid=56134aacf69462149b9516d894279fef&amp;type=3#BehaviorGraphEditorWindow" />
     <ui:VisualElement name="root">
         <uie:Toolbar>
             <uie:ToolbarMenu display-tooltip-when-elided="true" text="Select" name="toolbar-menu" style="width: 150px;" />
         </uie:Toolbar>
         <ui:VisualElement style="flex-grow: 1;">
-            <BehaviourGraph.Editor.BehaviourGraphView focusable="true" name="graph-view" />
+            <BehaviorGraph.Editor.BehaviorGraphView focusable="true" name="graph-view" />
             <ui:Label text="Label" display-tooltip-when-elided="true" name="graph-name" binding-path="m_Name" />
         </ui:VisualElement>
     </ui:VisualElement>

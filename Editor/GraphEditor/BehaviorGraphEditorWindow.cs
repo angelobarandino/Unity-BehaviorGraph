@@ -1,24 +1,23 @@
-using System;
-using BehaviourGraph.Runtime;
+using BehaviorGraph.Runtime;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace BehaviourGraph.Editor
+namespace BehaviorGraph.Editor
 {
     public class BehaviourGraphEditorWindow : EditorWindow
     {
         private Label graphNameLabel;
         private ToolbarMenu toolbarMenu;
-        private BehaviourGraphView graphView;
+        private BehaviorGraphView graphView;
 
-        [MenuItem("Tools/Behaviour Graph Editor")]
+        [MenuItem("Tools/BehaviorGraph Editor")]
         public static void OpenWindow()
         {
             BehaviourGraphEditorWindow wnd = GetWindow<BehaviourGraphEditorWindow>();
-            wnd.titleContent = new GUIContent("Behaviour Graph Editor");
+            wnd.titleContent = new GUIContent("BehaviorGraph Editor");
             wnd.OnSelectionChange();
         }
 
@@ -40,16 +39,16 @@ namespace BehaviourGraph.Editor
             VisualElement root = rootVisualElement;
 
             // Import StyleSheet
-            root.AddStyleSheet("Assets/BehaviourGraph/Editor/Resources/StyleSheets/BehaviourGraphEditorWindow.uss");
+            root.AddStyleSheet("Assets/BehaviorGraph/Editor/Resources/StyleSheets/BehaviorGraphEditorWindow.uss");
 
             // Import UXML
             AssetDatabase
-                .LoadAssetAtPath<VisualTreeAsset>("Assets/BehaviourGraph/Editor/Resources/Uxml/BehaviourGraphEditorWindow.uxml")
+                .LoadAssetAtPath<VisualTreeAsset>("Assets/BehaviorGraph/Editor/Resources/Uxml/BehaviorGraphEditorWindow.uxml")
                 .CloneTree(root);
 
             graphNameLabel = root.Q<Label>("graph-name");
             toolbarMenu = root.Q<ToolbarMenu>("toolbar-menu");
-            graphView = root.Q<BehaviourGraphView>("graph-view");
+            graphView = root.Q<BehaviorGraphView>("graph-view");
 
             OnSelectionChange();
         }

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using BehaviourGraph.Runtime.Tasks;
+using BehaviorGraph.Runtime.Tasks;
 
-namespace BehaviourGraph.Runtime
+namespace BehaviorGraph.Runtime
 {
     public interface ITask : INode, ICloneable
     {

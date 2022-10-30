@@ -2,20 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using BehaviourGraph.Runtime;
-using BehaviourGraph.Runtime.Attributes;
-using BehaviourGraph.Runtime.Tasks;
+using BehaviorGraph.Runtime;
+using BehaviorGraph.Runtime.Attributes;
+using BehaviorGraph.Runtime.Tasks;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Action = BehaviourGraph.Runtime.Tasks.Action;
+using Action = BehaviorGraph.Runtime.Tasks.Action;
 
-namespace BehaviourGraph.Editor
+namespace BehaviorGraph.Editor
 {
-    public class BehaviourGraphView : GraphView, IGraphView
+    public class BehaviorGraphView : GraphView, IGraphView
     {
-        public new class UxmlFactory : UxmlFactory<BehaviourGraphView, GraphView.UxmlTraits> { }
+        public new class UxmlFactory : UxmlFactory<BehaviorGraphView, GraphView.UxmlTraits> { }
 
         private IBehaviour activeBehaviour;
         private Vector2 contextualMousePosition;
@@ -27,7 +27,7 @@ namespace BehaviourGraph.Editor
             get => activeBehaviour?.BehaviourOwner;
         }
 
-        public BehaviourGraphView()
+        public BehaviorGraphView()
         {
             Insert(0, new GridBackground());
             SetupZoom(0.05f, ContentZoomer.DefaultMaxScale);
@@ -35,7 +35,7 @@ namespace BehaviourGraph.Editor
             this.AddManipulator(new SelectionDragger());
             this.AddManipulator(new RectangleSelector());
             this.AddManipulator(new ClickSelector());
-            this.AddStyleSheet("Assets/BehaviourGraph/Editor/Resources/StyleSheets/BehaviourTreeEditorStyle.uss");
+            this.AddStyleSheet("Assets/BehaviorGraph/Editor/Resources/StyleSheets/BehaviorTreeEditorStyle.uss");
 
             blackboardProvider = new BlackboardProvider(this);
             nodeInspectorProvider = new NodeInspectorProvider(this);
@@ -274,6 +274,13 @@ namespace BehaviourGraph.Editor
                         });
                     }
 
+                    //check if current node is the rootTask
+                    if (nodeView.Node is ITask task && task.IsRootTask)
+                    {
+                        //then set the replacement node as the root task
+                        activeBehaviour.DataSource.SetRootTask(decoratorNode);
+                    }
+
                     //reload behavior tree
                     LoadBehaviorTree(activeBehaviour);
                 });
@@ -293,15 +300,6 @@ namespace BehaviourGraph.Editor
                         activeBehaviour.DataSource.AddChild(parentNode, replacementNode);
                     }
 
-                    //attach children to the replacement node
-                    if (nodeView.Node is IParentTask parentTask)
-                    {
-                        parentTask.GetChildren().ForEach(node =>
-                        {
-                            activeBehaviour.DataSource.AddChild(replacementNode, node);
-                        });
-                    }
-
                     //check if current node is the rootTask
                     if (nodeView.Node is ITask task && task.IsRootTask)
                     {
@@ -311,6 +309,15 @@ namespace BehaviourGraph.Editor
 
                     //remove node to replace    
                     activeBehaviour.DataSource.RemoveNode(nodeView.Node);
+
+                    //attach children to the replacement node
+                    if (nodeView.Node is IParentTask parentTask)
+                    {
+                        parentTask.GetChildren().ForEach(node =>
+                        {
+                            activeBehaviour.DataSource.AddChild(replacementNode, node);
+                        });
+                    }
 
                     //reload behavior tree
                     LoadBehaviorTree(activeBehaviour);
@@ -370,7 +377,7 @@ namespace BehaviourGraph.Editor
                 }
             }
 
-            if (evt.target is BehaviourGraphView)
+            if (evt.target is BehaviorGraphView)
             {
                 GraphContextualManager.AddTaskMenu(evt, node =>
                 {

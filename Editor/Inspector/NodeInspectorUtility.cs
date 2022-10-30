@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using BehaviourGraph.Runtime.Attributes;
-using BehaviourGraph.Runtime.Utilities;
+using BehaviorGraph.Runtime;
+using BehaviorGraph.Runtime.Attributes;
+using BehaviorGraph.Runtime.Utilities;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
-namespace BehaviourGraph.Editor
+namespace BehaviorGraph.Editor
 {
     public class NodeInspectorUtility
     {

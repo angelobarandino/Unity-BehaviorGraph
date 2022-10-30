@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace BehaviourGraph.Editor
+namespace BehaviorGraph.Editor
 {
     public class NodeIcon : Image
     {
@@ -10,7 +10,7 @@ namespace BehaviourGraph.Editor
 
         public NodeIcon()
         {
-            image = AssetDatabase.LoadAssetAtPath<Texture>("Assets/BehaviourGraph/Editor/Resources/Images/exclamation.png");
+            image = AssetDatabase.LoadAssetAtPath<Texture>("Assets/BehaviorGraph/Editor/Resources/Images/exclamation.png");
         }
     }
 }

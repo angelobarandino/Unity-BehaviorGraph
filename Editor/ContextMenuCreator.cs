@@ -1,16 +1,16 @@
 ﻿//using System;
 //using System.Collections.Generic;
 //using System.Linq;
-//using BehaviourGraph.Runtime;
-//using BehaviourGraph.Runtime.Attributes;
-//using BehaviourGraph.Runtime.Tasks;
+//using BehaviorGraph.Runtime;
+//using BehaviorGraph.Runtime.Attributes;
+//using BehaviorGraph.Runtime.Tasks;
 //using Unity.VisualScripting;
 //using UnityEditor;
 //using UnityEngine;
 //using UnityEngine.UIElements;
-//using TaskAction = BehaviourGraph.Runtime.Tasks.Action;
+//using TaskAction = BehaviorGraph.Runtime.Tasks.Action;
 
-//namespace BehaviourGraph.Editor
+//namespace BehaviorGraph.Editor
 //{
 //    public static class BehaviourTreeExtension
 //    {

@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using BehaviourGraph.Runtime.Tasks;
+﻿using System.Collections.Generic;
+using BehaviorGraph.Runtime;
+using BehaviorGraph.Runtime.Tasks;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace BehaviourGraph.Editor.Ports
+namespace BehaviorGraph.Editor.Ports
 {
     public class NodePort : Port
     {

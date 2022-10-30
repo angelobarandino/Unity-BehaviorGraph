@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace BehaviourGraph.Editor
+namespace BehaviorGraph.Editor
 {
     public struct NodeFieldInfo
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace BehaviourGraph.Runtime.Tasks
+namespace BehaviorGraph.Runtime.Tasks
 {
 
     public abstract class Composite : ParentTask

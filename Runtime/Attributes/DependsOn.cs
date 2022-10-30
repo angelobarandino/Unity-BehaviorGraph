@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BehaviourGraph.Runtime.Attributes
+namespace BehaviorGraph.Runtime.Attributes
 {
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = true, Inherited = false)]
     public class DependsOn : Attribute

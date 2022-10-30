@@ -1,7 +1,8 @@
-﻿using UnityEditor;
+﻿using BehaviorGraph.Runtime;
+using UnityEditor;
 using UnityEngine;
 
-namespace BehaviourGraph.Editor
+namespace BehaviorGraph.Editor
 {
     [CustomEditor(typeof(BlackboardVariable))]
     public class BlackboardVariableDefaultEditor : UnityEditor.Editor

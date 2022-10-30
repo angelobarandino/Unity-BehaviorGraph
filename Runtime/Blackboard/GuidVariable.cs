@@ -1,7 +1,7 @@
 ﻿using System;
-using BehaviourGraph.Runtime;
+using BehaviorGraph.Runtime;
 
-namespace BehaviourGraph
+namespace BehaviorGraph.Runtime
 {
     [Serializable]
     public class GuidVariable : BBVariable<SerializableGuid>

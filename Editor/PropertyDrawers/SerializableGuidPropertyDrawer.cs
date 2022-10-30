@@ -1,4 +1,4 @@
-﻿using BehaviourGraph.Runtime;
+﻿using BehaviorGraph.Runtime;
 using UnityEditor;
 using UnityEngine;
 
