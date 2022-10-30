@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEditor;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace BehaviorGraph.Editor
@@ -40,12 +41,11 @@ namespace BehaviorGraph.Editor
             if (DragAndDrop.objectReferences?.Length != 1)
                 return;
 
-            foreach (var obj in DragAndDrop.objectReferences)
+            var droppedObject = DragAndDrop.objectReferences[0];
+
+            if (canDrop(droppedObject) && target is IGraphView graphView)
             {
-                if (target is IGraphView graphView)
-                {
-                    graphView.OnObjectDropped(obj, evt.localMousePosition);
-                }
+                graphView.OnObjectDropped(droppedObject, Event.current.mousePosition);
             }
         }
     }

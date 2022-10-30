@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using BehaviorGraph.Editor.Ports;
 using BehaviorGraph.Runtime;
 using BehaviorGraph.Runtime.Attributes;
 using BehaviorGraph.Runtime.Tasks;
@@ -439,8 +440,8 @@ namespace BehaviorGraph.Editor
 
         public void OnObjectDropped(UnityEngine.Object droppedObject, Vector2 mousePosition)
         {
-            var position = this.ChangeCoordinatesTo(this.contentContainer, mousePosition - new Vector2(10f, 50f));
-            
+            var position = viewTransform.matrix.inverse.MultiplyPoint(mousePosition - new Vector2(10, 50));
+
             if (droppedObject is BehaviorSubTree behaviorSubTree)
             {
                 var subTree = new SubTree();

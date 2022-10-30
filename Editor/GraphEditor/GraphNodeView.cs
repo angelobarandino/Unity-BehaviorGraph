@@ -81,7 +81,7 @@ namespace BehaviorGraph.Editor
 
             GraphView.RecordObjectUndo(Runtime.TaskUpdateEvent.Update);
 
-            var newPosition = new Vector2(newPos.xMin, newPos.yMin);
+            var newPosition = new Vector2(newPos.x, newPos.y);
             var positionDelta = node.GetPosition() - newPosition;
             node.SetPosition(newPosition);
 
@@ -92,8 +92,8 @@ namespace BehaviorGraph.Editor
                 {
                     var nodeView = GraphView.FindGraphNodeView(child.Id);
                     var currentPosition = nodeView.GetPosition();
-                    currentPosition.xMin -= positionDelta.x;
-                    currentPosition.yMin -= positionDelta.y;
+                    currentPosition.x -= positionDelta.x;
+                    currentPosition.y -= positionDelta.y;
 
                     nodeView.capabilities &= ~Capabilities.Snappable;
                     nodeView.SetPosition(currentPosition);
@@ -103,8 +103,8 @@ namespace BehaviorGraph.Editor
 
         private void UseNodePosition(Vector2 position)
         {
-            style.top = position.y;
             style.left = position.x;
+            style.top = position.y;
         }
 
         public override void OnSelected()
