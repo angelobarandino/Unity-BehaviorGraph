@@ -1,4 +1,5 @@
 ﻿using BehaviorGraph.Runtime.Attributes;
+using UnityEditor;
 using UnityEngine;
 
 namespace BehaviorGraph.Runtime.Tasks.Actions
@@ -29,7 +30,7 @@ namespace BehaviorGraph.Runtime.Tasks.Actions
         [SerializeField]
         private FinishStatus finishStatus = FinishStatus.Success;
 
-        private float timeToWait;
+        private float timeRemaining;
 
         protected override void OnStart()
         {
@@ -38,14 +39,21 @@ namespace BehaviorGraph.Runtime.Tasks.Actions
                 waitTime.Value = Random.Range(randomWaitMin.Value, randomWaitMax.Value);
             }
 
-            timeToWait = Time.time + waitTime.Value;
+            timeRemaining = waitTime.Value;
         }
 
         protected override NodeState OnUpdate()
         {
-            return Time.time > timeToWait 
-                ? finishStatus == FinishStatus.Success ? NodeState.Success : NodeState.Failure
-                : NodeState.Running;
+            timeRemaining -= Time.deltaTime;
+            if (timeRemaining > 0) return NodeState.Running;
+            timeRemaining = 0;
+
+            return finishStatus == FinishStatus.Success ? NodeState.Success : NodeState.Failure;
+        }
+
+        public override string GetInfo()
+        {
+            return randomWait.Value && !Application.isPlaying ? $"Wait [{randomWaitMin.Value}, {randomWaitMax.Value}] sec" : $"Wait {waitTime.Value:0.#} sec";
         }
     }
 }

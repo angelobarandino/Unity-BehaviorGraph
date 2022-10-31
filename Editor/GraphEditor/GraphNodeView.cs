@@ -17,7 +17,6 @@ namespace BehaviorGraph.Editor
         public GraphNodeView(INode node, string uiFile) : base(uiFile)
         {
             this.node = node;
-            base.title = this.node.Name;
             viewDataKey = this.node.Id;
 
             SetEditorMode();
@@ -73,7 +72,10 @@ namespace BehaviorGraph.Editor
             get => node;
         }
 
-        protected virtual void OnNodeUpdate() { }
+        protected virtual void OnNodeUpdate()
+        {
+            title = (Node as ITask).GetInfo();
+        }
 
         public override void SetPosition(Rect newPos)
         {
@@ -190,6 +192,8 @@ namespace BehaviorGraph.Editor
 
             BodyContent.ClearClassList();
             BodyContent.AddToClassList(state.ToString());
+
+            title = (Node as ITask).GetInfo();
 
             Input?.SetState(state, includeEdges: true);
             Output?.SetState(state, includeEdges: false);

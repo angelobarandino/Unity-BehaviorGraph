@@ -135,7 +135,6 @@
     background-color: rgb(76, 78, 82);
 }
 
-
 .graphElement.node {
     margin-left: 0;
     margin-right: 0;
