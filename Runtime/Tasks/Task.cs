@@ -123,7 +123,19 @@ namespace BehaviorGraph.Runtime.Tasks
                     {
                         if (variable.IsReferenced)
                         {
-                            var bbVariable = variable.IsDynamic ? blackboard.AddGetDynamicVariable(variable) : blackboard.GetVariable(variable.ReferenceName);
+                            IBBVariable bbVariable = null;
+                            if (variable.IsDynamic)
+                            {
+                                bbVariable = blackboard.AddGetDynamicVariable(variable);
+                            }
+                            else
+                            {
+                                bbVariable = blackboard.GetVariable(variable.ReferenceName);
+                                if (bbVariable == null)
+                                {
+                                    throw new InvalidOperationException($"A Blackboard variable '{variable.ReferenceName}' bound to {Name}.{fieldInfo.Name} property does not exist.");
+                                }
+                            }
 
                             if (!bbVariable.Invalid) fieldInfo.SetValue(this, bbVariable);
                         }
