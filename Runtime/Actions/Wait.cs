@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace BehaviorGraph.Runtime.Tasks.Actions
 {
+    [TaskIcon("Assets/BehaviorGraph/Editor/Resources/Images/stopwatch.png")]
     public class Wait : Action
     {
         public enum FinishStatus

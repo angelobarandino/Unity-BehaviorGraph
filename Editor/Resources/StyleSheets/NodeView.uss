@@ -87,6 +87,7 @@
 
 #node-icon {
     height: 20px;
+    width: 40px;
 }
 
 #bottom {

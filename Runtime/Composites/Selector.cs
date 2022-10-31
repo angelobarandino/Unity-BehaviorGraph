@@ -1,7 +1,9 @@
 ﻿using System.Linq;
+using BehaviorGraph.Runtime.Attributes;
 
 namespace BehaviorGraph.Runtime.Tasks.Composites
 {
+    [TaskIcon("Assets/BehaviorGraph/Editor/Resources/Images/selector.png")]
     public class Selector : Composite
     {
         protected override NodeState OnChildUpdate(int childIndex, NodeState childState)

@@ -1,6 +1,8 @@
 ﻿using System.Linq;
+using System.Reflection;
 using BehaviorGraph.Editor.Ports;
 using BehaviorGraph.Runtime;
+using BehaviorGraph.Runtime.Attributes;
 using BehaviorGraph.Runtime.Tasks;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -20,10 +22,12 @@ namespace BehaviorGraph.Editor
             viewDataKey = this.node.Id;
 
             SetEditorMode();
+            SetNodeIcon(node);
             UseNodePosition(node.GetPosition());
 
             Node.OnNodeUpdate -= OnNodeUpdate;
             Node.OnNodeUpdate += OnNodeUpdate;
+
         }
 
         private NodePort input;
@@ -63,6 +67,7 @@ namespace BehaviorGraph.Editor
                 }
             }
         }
+
 
         public IGraphView GraphView { get; set; }
         public System.Action Selected { get; set; }
@@ -158,6 +163,15 @@ namespace BehaviorGraph.Editor
             }
 
             return output.ConnectTo(input);
+        }
+
+        private void SetNodeIcon(INode node)
+        {
+            var iconAttr = node.GetType().GetCustomAttribute<TaskIcon>();
+            if (iconAttr == null) 
+                return;
+
+            BodyContent.Q<NodeIcon>().SetImageAsset(iconAttr.IconPath);
         }
 
         private VisualElement bodyContent;

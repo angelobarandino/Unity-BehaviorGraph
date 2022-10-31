@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using BehaviorGraph.Runtime.Attributes;
+using UnityEngine;
 
 namespace BehaviorGraph.Runtime.Tasks.Composites
 {
+    [TaskIcon("Assets/BehaviorGraph/Editor/Resources/Images/parallel.png")]
     public class Parallel : Composite
     {
         public enum ParallelPolicy

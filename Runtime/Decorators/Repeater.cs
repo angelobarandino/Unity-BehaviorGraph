@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace BehaviorGraph.Runtime.Tasks.Decorators
 {
+    [TaskIcon("Assets/BehaviorGraph/Editor/Resources/Images/repeater.png")]
     public class Repeater : Decorator
     {
         public enum RepeaterMode

@@ -10,7 +10,14 @@ namespace BehaviorGraph.Editor
 
         public NodeIcon()
         {
-            image = AssetDatabase.LoadAssetAtPath<Texture>("Assets/BehaviorGraph/Editor/Resources/Images/exclamation.png");
+            SetImageAsset("Assets/BehaviorGraph/Editor/Resources/Images/exclamation.png");
+            
+            this.scaleMode = ScaleMode.ScaleToFit;
+        }
+
+        public void SetImageAsset(string iconPath)
+        {
+            image = AssetDatabase.LoadAssetAtPath<Texture>(iconPath);
         }
     }
 }
