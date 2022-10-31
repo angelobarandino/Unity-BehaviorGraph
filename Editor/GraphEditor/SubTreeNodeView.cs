@@ -45,7 +45,7 @@ namespace BehaviorGraph.Editor
             {
                 if (subTree.BehaviourSubTree)
                 {
-                    Info = subTree.BehaviourSubTree.Name;
+                    Info = subTree.GetInfo();
                     createNewButton.style.display = DisplayStyle.None;
                 }
                 else

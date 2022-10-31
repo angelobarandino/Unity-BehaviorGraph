@@ -15,10 +15,12 @@ namespace BehaviorGraph.Runtime.Tasks.Composites
 
         protected override void OnChildStart(int childIndex)
         {
-            if (children[childIndex].State == NodeState.Ready)
+            var currentState = children[childIndex].GetState();
+
+            if (currentState == NodeState.Ready)
                 return;
 
-            if (children[childIndex].State == NodeState.Running)
+            if (currentState == NodeState.Running)
                 return;
 
             ExecuteNextChild();
@@ -32,7 +34,7 @@ namespace BehaviorGraph.Runtime.Tasks.Composites
                     if (CheckAnyChildStatesEquals(NodeState.Success))
                     {
                         foreach (var childTask in children)
-                            if (childTask.State == NodeState.Running)
+                            if (childTask.GetState() == NodeState.Running)
                                 childTask.Interupt(NodeState.Success);
 
                         return NodeState.Success;
@@ -46,7 +48,7 @@ namespace BehaviorGraph.Runtime.Tasks.Composites
                     if (CheckAnyChildStatesEquals(NodeState.Failure))
                     {
                         foreach (var childTask in children)
-                            if (childTask.State == NodeState.Running)
+                            if (childTask.GetState() == NodeState.Running)
                                 childTask.Interupt(NodeState.Failure);
 
                         return NodeState.Failure;

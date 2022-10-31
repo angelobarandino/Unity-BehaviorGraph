@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using BehaviorGraph.Runtime.Tasks;
+using UnityEngine;
 
 namespace BehaviorGraph.Runtime
 {
@@ -11,6 +12,7 @@ namespace BehaviorGraph.Runtime
 
         System.Action OnNodeUpdate { get; set; }
 
+        NodeState GetState();
         Vector2 GetPosition();
         void SetPosition(Vector2 position);
     }

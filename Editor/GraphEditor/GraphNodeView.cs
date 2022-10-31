@@ -1,12 +1,10 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using BehaviorGraph.Editor.Ports;
 using BehaviorGraph.Runtime;
 using BehaviorGraph.Runtime.Tasks;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static UnityEngine.EventSystems.StandaloneInputModule;
 using GVNode = UnityEditor.Experimental.GraphView.Node;
 
 namespace BehaviorGraph.Editor
@@ -174,6 +172,7 @@ namespace BehaviorGraph.Editor
             AddToClassList("editorMode");
             RemoveFromClassList("playMode");
 
+            title = (Node as ITask).GetInfo();
             Input?.SetState(NodeState.Ready, includeEdges: true);
             Output?.SetState(NodeState.Ready, includeEdges: false);
         }
@@ -187,7 +186,7 @@ namespace BehaviorGraph.Editor
                 RemoveFromClassList("editorMode");
             }
 
-            var state = ((Runtime.ITask)Node).State;
+            var state = Node.GetState();
 
             BodyContent.ClearClassList();
             BodyContent.AddToClassList(state.ToString());

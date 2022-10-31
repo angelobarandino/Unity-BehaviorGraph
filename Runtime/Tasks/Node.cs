@@ -1,4 +1,5 @@
 ﻿using System;
+using BehaviorGraph.Runtime.Tasks;
 using UnityEngine;
 
 namespace BehaviorGraph.Runtime
@@ -44,6 +45,8 @@ namespace BehaviorGraph.Runtime
             m_position = position;
         }
 
-        public Action OnNodeUpdate { get; set; }
+        public System.Action OnNodeUpdate { get; set; }
+
+        public abstract NodeState GetState();
     }
 }

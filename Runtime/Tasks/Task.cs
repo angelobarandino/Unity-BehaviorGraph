@@ -31,17 +31,15 @@ namespace BehaviorGraph.Runtime.Tasks
             get => gameObject.transform;
         }
 
-        private NodeState currentState;
-        public NodeState State => currentState;
-
         [SerializeField, HideInInspector]
         private bool isRootTask;
         public bool IsRootTask => isRootTask;
 
-
         private bool started = false;
         private bool isInterupt = false;
+        private NodeState currentState;
         private NodeState interuptState;
+
         public Task()
         {
             Name = GetType().Name;
@@ -68,7 +66,10 @@ namespace BehaviorGraph.Runtime.Tasks
             return currentState;
         }
 
-        public virtual void Awake() { }
+        public override NodeState GetState()
+        {
+            return currentState;
+        }
 
         protected virtual NodeState OnUpdate() { return NodeState.Success; }
         protected virtual void OnStart() { }
@@ -81,7 +82,7 @@ namespace BehaviorGraph.Runtime.Tasks
 
             foreach (var child in GetChildren())
             {
-                if (child.State == NodeState.Running)
+                if (child.GetState() == NodeState.Running)
                 {
                     child.Interupt(interuptState);
                     child.Evaluate();
@@ -104,6 +105,11 @@ namespace BehaviorGraph.Runtime.Tasks
         public void OverrideState(NodeState taskState)
         {
             currentState = taskState;
+        }
+
+        public virtual string GetInfo()
+        {
+            return Name;
         }
 
         public virtual List<ITask> GetChildren() 

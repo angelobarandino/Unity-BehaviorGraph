@@ -35,13 +35,10 @@ namespace BehaviorGraph.Runtime.Tasks
                 (node as ITask).Initialize(owner);
             }
         }
-    }
 
-    public class ActionTask : Task
-    {
-        public ActionTask()
+        public override string GetInfo()
         {
-            Name = "Action Task";
+            return BehaviourSubTree.Name;
         }
     }
 }
