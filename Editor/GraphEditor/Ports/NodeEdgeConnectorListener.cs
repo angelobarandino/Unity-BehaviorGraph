@@ -117,6 +117,11 @@ namespace BehaviorGraph.Editor.Ports
 
         private Edge ConnectToDroppedNode(Edge edge, GraphNodeView targetNode)
         {
+            if (edge.output != null && edge.input != null)
+            {
+                return edge.input.ConnectTo(edge.output);
+            }
+
             if (edge.output?.node is GraphNodeView outputNode)
             {
                 if (outputNode.InHierarchy(targetNode))
