@@ -4,6 +4,7 @@ using BehaviorGraph.Editor.Ports;
 using BehaviorGraph.Runtime;
 using BehaviorGraph.Runtime.Attributes;
 using BehaviorGraph.Runtime.Tasks;
+using BehaviorGraph.Runtime.Utilities;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -79,7 +80,14 @@ namespace BehaviorGraph.Editor
 
         protected virtual void OnNodeUpdate()
         {
-            title = (Node as ITask).GetInfo();
+            SetTitle();
+        }
+
+        private void SetTitle()
+        {
+            var info = (Node as ITask).GetInfo();
+
+            title = TextU.ParseHtmlString(info);
         }
 
         public override void SetPosition(Rect newPos)
@@ -188,7 +196,8 @@ namespace BehaviorGraph.Editor
             AddToClassList("editorMode");
             RemoveFromClassList("playMode");
 
-            title = (Node as ITask).GetInfo();
+            SetTitle();
+
             Input?.SetState(NodeState.Ready, includeEdges: true);
             Output?.SetState(NodeState.Ready, includeEdges: false);
         }
@@ -207,7 +216,7 @@ namespace BehaviorGraph.Editor
             BodyContent.ClearClassList();
             BodyContent.AddToClassList(state.ToString());
 
-            title = (Node as ITask).GetInfo();
+            SetTitle();
 
             Input?.SetState(state, includeEdges: true);
             Output?.SetState(state, includeEdges: false);

@@ -1,5 +1,5 @@
 ﻿using BehaviorGraph.Runtime.Attributes;
-using UnityEditor;
+using BehaviorGraph.Runtime.Utilities;
 using UnityEngine;
 
 namespace BehaviorGraph.Runtime.Tasks.Actions
@@ -54,7 +54,7 @@ namespace BehaviorGraph.Runtime.Tasks.Actions
 
         public override string GetInfo()
         {
-            return randomWait.Value && !Application.isPlaying ? $"Wait [{randomWaitMin.Value}, {randomWaitMax.Value}] sec" : $"Wait {waitTime.Value:0.#} sec";
+            return randomWait.Value && !Application.isPlaying ? $"Wait b`[{randomWaitMin.Value}, b`{randomWaitMax.Value}] sec" : $"Wait b`{waitTime.Value:0.#} sec";
         }
     }
 }
