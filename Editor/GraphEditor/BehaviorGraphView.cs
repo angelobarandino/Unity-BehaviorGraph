@@ -42,9 +42,6 @@ namespace BehaviorGraph.Editor
 
             blackboardProvider = new BlackboardProvider(this);
             nodeInspectorProvider = new NodeInspectorProvider(this);
-
-            Undo.undoRedoPerformed -= OnUndoRedoPerformed;
-            Undo.undoRedoPerformed += OnUndoRedoPerformed;
             
             //copy and paste callbacks
             canPasteSerializedData -= HandleCanPasetSerializedData;
@@ -54,7 +51,6 @@ namespace BehaviorGraph.Editor
             unserializeAndPaste -= HandleUnserializeAndPaste;
             unserializeAndPaste += HandleUnserializeAndPaste;
         }
-
 
         public void LoadBehaviorTree(IBehaviour behaviour)
         {
@@ -205,11 +201,6 @@ namespace BehaviorGraph.Editor
         private Vector2 GetMousePosition(ContextualMenuPopulateEvent evt)
         {
             return (evt.currentTarget as VisualElement).ChangeCoordinatesTo(contentViewContainer, evt.localMousePosition);
-        }
-
-        private void OnUndoRedoPerformed()
-        {
-            LoadBehaviorTree(activeBehaviour);
         }
 
         private void AddToSelection(INode node)

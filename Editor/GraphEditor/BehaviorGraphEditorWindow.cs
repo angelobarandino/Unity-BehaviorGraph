@@ -1,3 +1,4 @@
+using System;
 using BehaviorGraph.Runtime;
 using UnityEditor;
 using UnityEditor.Callbacks;
@@ -81,15 +82,32 @@ namespace BehaviorGraph.Editor
             return title;
         }
 
+        private void OnInspectorUpdate()
+        {
+            if (Application.isPlaying && graphView != null)
+            {
+                graphView.nodes.ForEach(node =>
+                {
+                    if (node is GraphNodeView graphNode)
+                        graphNode.UpdatePlaymodeStates();
+                });
+            }
+        }
+
         private void OnEnable()
         {
             EditorApplication.playModeStateChanged -= OnPlayModeStateChange;
             EditorApplication.playModeStateChanged += OnPlayModeStateChange;
+
+            Undo.undoRedoPerformed -= OnUndoRedoPerformed;
+            Undo.undoRedoPerformed += OnUndoRedoPerformed;
         }
 
         private void OnDisable()
         {
             EditorApplication.playModeStateChanged -= OnPlayModeStateChange;
+
+            Undo.undoRedoPerformed -= OnUndoRedoPerformed;
         }
 
         private void OnPlayModeStateChange(PlayModeStateChange state)
@@ -108,16 +126,12 @@ namespace BehaviorGraph.Editor
             }
         }
 
-        private void OnInspectorUpdate()
+        private void OnUndoRedoPerformed()
         {
-            if (Application.isPlaying && graphView != null)
-            {
-                graphView.nodes.ForEach(node =>
-                {
-                    if (node is GraphNodeView graphNode)
-                        graphNode.UpdatePlaymodeStates();
-                });
-            }
+            if (graphView == null) return;
+
+            OnSelectionChange();
         }
+
     }
 }
