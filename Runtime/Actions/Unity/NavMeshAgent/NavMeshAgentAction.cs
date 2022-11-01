@@ -23,5 +23,13 @@ namespace BehaviorGraph.Runtime.Tasks.Actions.UnityNavMeshAgent
             agent = (useSelf ? GameObject : other.Value).GetComponent<NavMeshAgent>();
         }
 
+        protected bool HasReachDestination(Vector3 destination, float distance)
+        {
+            var agentDistance = Vector3.Distance(transform.position, destination);
+
+            var withinDistance = agentDistance - agent.stoppingDistance <= distance;
+
+            return withinDistance;
+        }
     }
 }

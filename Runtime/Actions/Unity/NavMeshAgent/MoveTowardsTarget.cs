@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using BehaviorGraph.Runtime.Attributes;
-using CityBuilder.AI.Tasks;
 using UnityEngine;
 
 namespace BehaviorGraph.Runtime.Tasks.Actions.UnityNavMeshAgent
@@ -40,7 +39,8 @@ namespace BehaviorGraph.Runtime.Tasks.Actions.UnityNavMeshAgent
 
         public IEnumerator MoveAgent(Vector3 destination)
         {
-            yield return new WaitForAgentToComplete(agent, destination);
+            yield return new WaitUntil(() => HasReachDestination(destination, 0.05f));
+
             isComplete = true;
         }
     }
