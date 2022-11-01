@@ -15,7 +15,6 @@ namespace BehaviorGraph.Runtime.Tasks
         private int lastRunningIndex = 0;
         
         private readonly List<Task> conditionalTasks = new();
-        private readonly Dictionary<string, NodeState> allChildState = new();
 
         protected override void OnStart()
         {
@@ -45,23 +44,38 @@ namespace BehaviorGraph.Runtime.Tasks
                 }
             }
 
-            var childState = child.Evaluate();
-            allChildState[child.Id] = childState;
-            return OnChildUpdate(currentIndex, childState);
+            return OnChildUpdate(currentIndex, child.Evaluate());
         }
-
 
         protected virtual void OnChildStart(int childIndex) { }
         protected virtual NodeState ReactiveInteruptionState() => NodeState.Failure;
         protected virtual NodeState OnChildUpdate(int childIndex, NodeState childState) => childState;
 
+        protected bool CheckAnyChildStatesEquals(NodeState taskState)
+        {
+            foreach (var child in children)
+            {
+                if (child.GetState() == taskState)
+                    return true;
+            }
+            
+            return false;
+        }
 
-        protected bool CheckAnyChildStatesEquals(NodeState taskState) => allChildState.Any(state => state.Value == taskState);
-        protected bool CheckAllChildStatesEquals(NodeState taskState) => allChildState.All(state => state.Value == taskState);
+        protected bool CheckAllChildStatesEquals(NodeState taskState)
+        {
+            foreach (var child in children)
+            {
+                if (child.GetState() != taskState)
+                    return false;
+            }
+
+            return true;
+        }
+
         protected void ExecuteNextChild()
         {
             currentIndex++;
-            
             if (currentIndex == children.Count)
                 currentIndex = 0;
 
@@ -92,7 +106,6 @@ namespace BehaviorGraph.Runtime.Tasks
             for (var index = 0; index < conditionalTasks.Count; index++)
             {
                 var conditionTaskState = conditionalTasks[index].Evaluate();
-                allChildState[conditionalTasks[index].Id] = conditionTaskState;
                 conditionTaskStates.Add(conditionTaskState);
             }
 
@@ -114,15 +127,12 @@ namespace BehaviorGraph.Runtime.Tasks
                 child = (ITask)children[currentIndex];
             }
         }
+
         private void ResetChildStates()
         {
-            allChildState.Clear();
-
             foreach (var node in children)
             {
-                allChildState.Add(node.Id, NodeState.Ready);
-
-                Traverse(node as ITask, child => child.OverrideState(NodeState.Ready));
+                Traverse(node, child => child.OverrideState(NodeState.Ready));
             }
         }
     }
