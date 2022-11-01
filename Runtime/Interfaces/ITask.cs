@@ -4,7 +4,7 @@ using BehaviorGraph.Runtime.Tasks;
 
 namespace BehaviorGraph.Runtime
 {
-    public interface ITask : INode, ICloneable
+    public interface ITask : INode
     {
         bool IsRootTask { get; }
         IBehaviourOwner Owner { get; }

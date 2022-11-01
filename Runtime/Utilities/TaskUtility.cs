@@ -54,10 +54,13 @@ namespace BehaviorGraph.Runtime.Utilities
                 {
                     if (field.Name == source.Name && field.FieldType == source.FieldType)
                     {
+                        // copy bbvariables to cloned task
                         if (source.GetValue(task) is IBBVariable variable)
                         {
                             field.SetValue(cloneTask, variable.Clone());
                         }
+
+
                     }
                 }
             }

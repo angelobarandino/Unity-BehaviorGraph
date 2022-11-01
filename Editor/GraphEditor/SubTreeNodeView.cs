@@ -73,5 +73,10 @@ namespace BehaviorGraph.Editor
 
             CheckBehaviourAsset();
         }
+
+        protected override void SetTitle()
+        {
+            title = Node.Name;
+        }
     }
 }

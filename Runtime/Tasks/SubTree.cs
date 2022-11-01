@@ -38,7 +38,7 @@ namespace BehaviorGraph.Runtime.Tasks
 
         public override string GetInfo()
         {
-            return BehaviourSubTree.Name;
+            return IsNullOrDestroyed(BehaviourSubTree) ? "Behaviour SubTree" : BehaviourSubTree.Name;
         }
     }
 }

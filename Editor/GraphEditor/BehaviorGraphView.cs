@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using BehaviorGraph.Editor.Ports;
 using BehaviorGraph.Runtime;
 using BehaviorGraph.Runtime.Attributes;
 using BehaviorGraph.Runtime.Tasks;
@@ -382,23 +381,31 @@ namespace BehaviorGraph.Editor
                         if (nodeView.Node is ITask nodeTask)
                         {
                             var nodesToDelete = new List<INode>();
-                            nodesToDelete.Add(nodeTask);
-
-                            //create and set sub tree root node
-                            var cloneTask = nodeTask.Clone() as ITask;
-                            cloneTask.SetPosition(nodeTask.GetPosition());
-                            cloneTask.SetRootTask(true);
-                            behaviorSubTree.DataSource.CreateNode(cloneTask);
 
                             //copy children to subtree
-                            nodeTask.GetChildren().ForEach(child =>
+                            nodeTask.TraverseFromParent((parent, child) =>
                             {
-                                nodesToDelete.Add(child);
+                                if (!nodesToDelete.Contains(parent))
+                                    nodesToDelete.Add(parent);
+
+                                if (!nodesToDelete.Contains(child))
+                                    nodesToDelete.Add(child);
+
+                                var cloneParent = behaviorSubTree.DataSource.FindNodeById(parent.Id) as ITask;
+                                if (cloneParent == null)
+                                {
+                                    cloneParent = (ITask)parent.Clone();
+                                    cloneParent.SetId(parent.Id);
+                                    cloneParent.SetPosition(parent.GetPosition());
+                                    cloneParent.SetRootTask(nodeTask.Id == parent.Id);
+                                    behaviorSubTree.DataSource.CreateNode(cloneParent);
+                                }
 
                                 var cloneChild = child.Clone() as ITask;
+                                cloneChild.SetId(child.Id);
                                 cloneChild.SetPosition(child.GetPosition());
                                 behaviorSubTree.DataSource.CreateNode(cloneChild);
-                                behaviorSubTree.DataSource.AddChild(cloneTask, cloneChild);
+                                behaviorSubTree.DataSource.AddChild(cloneParent, cloneChild);
                             });
 
                             //create subtree node
@@ -406,7 +413,6 @@ namespace BehaviorGraph.Editor
                             subTree.BehaviourSubTree = behaviorSubTree;
                             subTree.SetPosition(nodeView.Node.GetPosition());
                             activeBehaviour.DataSource.CreateNode(subTree);
-                            activeBehaviour.DataSource.DeleteNodes(nodesToDelete);
 
                             //set subtree parent node
                             var parentNode = activeBehaviour.DataSource.FindNodeById(nodeTask.ParentId);
@@ -415,6 +421,9 @@ namespace BehaviorGraph.Editor
                                 activeBehaviour.DataSource.RemoveChild(parentNode, nodeTask);
                                 activeBehaviour.DataSource.AddChild(parentNode, subTree);
                             }
+
+                            //remove nodes converter to subtree
+                            activeBehaviour.DataSource.DeleteNodes(nodesToDelete);
 
                             LoadBehaviorTree(activeBehaviour);
                         }

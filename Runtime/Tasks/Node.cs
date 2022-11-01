@@ -47,6 +47,14 @@ namespace BehaviorGraph.Runtime
 
         public System.Action OnNodeUpdate { get; set; }
 
+        public void SetId(SerializableGuid id)
+        {
+            this.id = id;
+        }
+
         public abstract NodeState GetState();
+
+        public abstract object Clone();
+
     }
 }

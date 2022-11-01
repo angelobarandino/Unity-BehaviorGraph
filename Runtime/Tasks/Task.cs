@@ -150,6 +150,16 @@ namespace BehaviorGraph.Runtime.Tasks
             }
         }
 
+        public bool IsNullOrDestroyed(object obj)
+        {
+            if (object.ReferenceEquals(obj, null)) return true;
+
+            if (obj is UnityEngine.Object) return (obj as UnityEngine.Object) == null;
+
+            return false;
+        }
+
+
         public void Traverse(ITask task, Action<ITask> callback)
         {
             callback.Invoke(task);
@@ -179,7 +189,7 @@ namespace BehaviorGraph.Runtime.Tasks
         {
             isRootTask = rootTask;
         }
-        public object Clone()
+        public override object Clone()
         {
             return TaskUtility.CreateCopy(this);
         }

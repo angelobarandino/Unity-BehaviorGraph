@@ -83,7 +83,7 @@ namespace BehaviorGraph.Editor
             SetTitle();
         }
 
-        private void SetTitle()
+        protected virtual void SetTitle()
         {
             var info = (Node as ITask).GetInfo();
 

@@ -18,6 +18,19 @@ namespace BehaviorGraph.Editor
             }
         }
 
+        public static void TraverseFromParent(this INode node, System.Action<INode, INode> callback)
+        {
+            if (node is IParentTask parentNode)
+            {
+                var children = parentNode.GetChildren();
+                foreach (var child in parentNode.GetChildren())
+                {
+                    callback(parentNode, child);
+                    child.TraverseFromParent(callback);
+                }
+            }
+        }
+
         public static bool InHierarchy(this INode startNode, INode endNode)
         {
             var isInHierarchy = false;

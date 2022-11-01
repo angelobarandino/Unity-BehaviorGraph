@@ -1,9 +1,10 @@
-﻿using BehaviorGraph.Runtime.Tasks;
+﻿using System;
+using BehaviorGraph.Runtime.Tasks;
 using UnityEngine;
 
 namespace BehaviorGraph.Runtime
 {
-    public interface INode
+    public interface INode : ICloneable
     {
         string Name { get; }
 
@@ -12,8 +13,9 @@ namespace BehaviorGraph.Runtime
 
         System.Action OnNodeUpdate { get; set; }
 
-        NodeState GetState();
-        Vector2 GetPosition();
+        void SetId(SerializableGuid id);
         void SetPosition(Vector2 position);
+        Vector2 GetPosition();
+        NodeState GetState();
     }
 }
