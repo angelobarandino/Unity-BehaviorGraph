@@ -167,6 +167,8 @@ namespace BehaviorGraph.Runtime.Tasks
             children.ForEach(child => Traverse(child, callback));
         }
 
+        public virtual void OnBehaviorStart() { }
+
         protected Coroutine StartCoroutine(IEnumerator enumerator)
         {
             return Owner.StartCoroutine(enumerator);

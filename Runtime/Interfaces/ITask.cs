@@ -18,5 +18,6 @@ namespace BehaviorGraph.Runtime
         void Interupt(NodeState interuptState);
         void OverrideState(NodeState newState);
         void Initialize(IBehaviourOwner owner);
+        void OnBehaviorStart();
     }
 }

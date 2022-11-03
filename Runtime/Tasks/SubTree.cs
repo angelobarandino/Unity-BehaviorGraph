@@ -27,12 +27,16 @@ namespace BehaviorGraph.Runtime.Tasks
 
         public override void Initialize(IBehaviourOwner owner)
         {
-            subTree = (BehaviorSubTree)subTree.Clone();
-
             base.Initialize(owner);
+
+            subTree = (BehaviorSubTree)subTree.Clone();
             foreach (var node in subTree.DataSource.AllNodes)
             {
-                (node as ITask).Initialize(owner);
+                if (node is ITask task)
+                {
+                    task.Initialize(owner);
+                    task.OnBehaviorStart();
+                }
             }
         }
 

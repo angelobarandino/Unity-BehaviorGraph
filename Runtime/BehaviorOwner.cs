@@ -29,16 +29,17 @@ namespace BehaviorGraph.Runtime
 
         private NodeState state = NodeState.Running;
 
-        [SerializeField]
-        private BehaviorAsset behaviorAssetClone;
-
         private void Start()
         {
             behaviorAsset = (BehaviorAsset)behaviorAsset.Clone();
-            behaviorAsset.DataSource.AllNodes.ForEach(node =>
+            foreach (var node in behaviorAsset.DataSource.AllNodes)
             {
-                (node as ITask).Initialize(this);
-            });
+                if (node is ITask task)
+                {
+                    task.Initialize(this);
+                    task.OnBehaviorStart();
+                }
+            }
         }
 
         private void Update()
